@@ -1,6 +1,10 @@
 ﻿#include < iostream >
+using namespace std;
 int main ()
 {
-	std::cout << "Hello word";
-	return 0;
+	int x;
+    std::cin >> x;
+	std::cout << "Hello word" << endl;
+	cout << x;
+	
 }
