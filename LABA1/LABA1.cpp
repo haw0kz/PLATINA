@@ -161,7 +161,7 @@ void addpipe(Pipe& pipe1 )
 	cin >> pipe1.length;
 	cout << "Введите диаметр " << endl;
 	cin >> pipe1.diam;
-	cout << "На ремонте? " << endl;
+	cout << "На ремонте? Введите 0 - НЕТ, 1 - ДА " << endl;
 	cin >> pipe1.repaired;
 	pipe1.accept = true;
 
@@ -191,6 +191,7 @@ int main()
 
 	while (true)
 	{
+
 		setlocale(LC_ALL, "ru");
 		menu();
 		int number;
