@@ -16,18 +16,6 @@ void menu()
 	cout << "8.Выход" << endl;
 }
 
-void check()
-{
-	do
-	{
-		cin.clear();
-		cin.ignore(1000, '/n');
-		int number;
-		cin >> number;
-	} while (cin.fail());
-}
-
-
 struct Pipe
 {
 	int id;
@@ -47,21 +35,70 @@ struct CS
 	bool accept = false;
 
 };
+
+int inputInteger(string msg)
+{
+	int val;
+	cout << msg;
+	while ((cin >> val).fail())
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << "Ошибка при вводе " << endl << msg;
+
+	}
+	return val;
+}
+
+float inputFloat(string msg)
+{
+	float val;
+	cout << msg;
+	while ((cin >> val).fail())
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << "Ошибка при вводе " << endl << msg;
+	}
+	return val;
+}
+
 void repairpipe(Pipe& pipe1)
 {
-	cout << endl;
-	cout << "В ремонте труба?" << endl;
-	cin >> pipe1.repaired;
+	int repair = inputInteger(" Введите 1 : труба в ремонте; 0 : труба не в ремонте ");
+	while (!(repair == 0 || repair == 1))
+	{
+		cout << " Вы ввели число не в том диапозоне " << endl;
+		repair = inputInteger("Введите 1 : труба в ремонте; 0 : труба не в ремонте ");
+	}
+	pipe1.repaired = repair;
 
+}
+
+int correct(int left, int right)	
+{
+		int x;	
+		while ((cin >> x).fail() || x<left || x>right)	
+		{
+				cin.clear();			
+				cin.ignore(1000, '\n');	
+				cout << endl;
+				cout << "Ошибка при вводе" << endl << "Введите команду: ";
+		}
+		return x;		
 }
 
 void repairceh(CS& cs1)
 {
 	if (cs1.accept == true)
 	{
-		int x;
-		cout << "Введите : 1 - Запуск цеха ; 0 - Остановка цеха " << endl;
-		cin >> x;
+		int x = inputInteger("Введите : 1 - Запуск цеха ; 0 - Остановка цеха ");
+		while (!(x == 0 || x == 1))
+		{
+			cout << " Вы ввели число не в том диапозоне " << endl;
+			x = inputInteger("Введите : 1 - Запуск цеха ; 0 - Остановка цеха");
+		}
+		
 		if (x == 1)
 		{
 			if (cs1.amount <= cs1.amountworking)
@@ -107,8 +144,6 @@ void repairceh(CS& cs1)
 void vvod(Pipe& pipe1, CS& cs1)
 {
 	ifstream fin("vvod.txt");
-	//pipe1.exist = true;
-	//cs1.exist = true;
 	if (!fin.is_open())
 		cout << "Файл не может быть открыт!\n";
 	else
@@ -121,7 +156,6 @@ void vvod(Pipe& pipe1, CS& cs1)
 
 void vivod(Pipe& pipe1, CS& cs1)
 {
-	
 	ofstream outf("VIVOD.txt", ios::app);
 	outf << "Индентификатор трубы:" << pipe1.id << endl;
 	outf << "Длина трубы:" << pipe1.length << endl;
@@ -148,57 +182,46 @@ void prosmotr(Pipe pipe1, CS cs1)
 	cout << "Количество КС:" << cs1.amount << endl;
 	cout << "Количество КС, находящихся на ремонте:" << cs1.amountworking << endl;
 	cout << "Эффективность КС:" << cs1.efficiency << endl;
-
 }
 
 
 void addpipe(Pipe& pipe1 )
 {
-	
-	cout << "Введите id " << endl;
-	cin >> pipe1.id;
-	cout << "Введите длину " << endl;
-	cin >> pipe1.length;
-	cout << "Введите диаметр " << endl;
-	cin >> pipe1.diam;
-	cout << "На ремонте? Введите 0 - НЕТ, 1 - ДА " << endl;
-	cin >> pipe1.repaired;
-	pipe1.accept = true;
-
+	 pipe1.id = inputInteger("Введите идентификатор:");
+	 pipe1.length = inputFloat("Введите длину: ");
+	 pipe1.diam = inputFloat("Введите диаметр:");
+	 int repair = inputInteger("Введите 1 : труба в ремонте; 0 : труба не в ремонте ");
+	 while (!(repair == 0 || repair == 1))
+	 {
+		 cout << "Вы ввели число не в том диапозоне " << endl;
+		 repair = inputInteger("Введите 1 : труба в ремонте; 0 : труба не в ремонте ");
+	 }
+	 pipe1.repaired = repair;
+	 pipe1.accept = true;
 }
 
 void addCS(CS& cs1)
 {
-
-	cout << "Введите id " << endl;
-	cin >> cs1.id;
-	cout << "Введите название КС " << endl;
+	cs1.id= inputInteger("Введите идентификатор :");
+	cout << "Введите название КС: " << endl;
 	cin >> cs1.name;
-	cout << "Введите количество " << endl;
-	cin >> cs1.amount;
-	cout << "Количество в работе " << endl;
-	cin >> cs1.amountworking;
-	cout << "Эффективность " << endl;
-	cin >> cs1.efficiency;
+	cs1.amount = inputInteger("Введите количество труб:");
+	cs1.amountworking = inputInteger("Введите количество рабочих труб:");
+	cs1.efficiency = inputFloat("Эффективность :");
 	cs1.accept = true;
-
 }
 
 int main()
 { 
 	Pipe pipe1;
 	CS cs1;
+	setlocale(LC_ALL, "ru");
 
 	while (true)
 	{
 
-		setlocale(LC_ALL, "ru");
-		menu();
-		int number;
-		cin >> number;
-		{
-			
-			switch (number)
+			menu();
+			switch (correct(0, 7))
 			{
 				case 1:
 				{
@@ -246,10 +269,7 @@ int main()
 				}
 			
 				
-			}
-			
-		}
-		
+			}	
 	
 	}
 
