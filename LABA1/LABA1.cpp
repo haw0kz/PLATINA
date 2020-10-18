@@ -36,31 +36,31 @@ struct CS
 
 };
 
-int inputInteger(string msg)
+int inputInteger(string message)
 {
-	int val;
-	cout << msg;
-	while ((cin >> val).fail())
+	int value;
+	cout << message;
+	while ((cin >> value).fail())
 	{
 		cin.clear();
 		cin.ignore(1000, '\n');
-		cout << "Ошибка при вводе " << endl << msg;
+		cout << "Ошибка при вводе " << endl << message;
 
 	}
-	return val;
+	return value;
 }
 
-float inputFloat(string msg)
+float inputFloat(string message)
 {
-	float val;
-	cout << msg;
-	while ((cin >> val).fail())
+	float value;
+	cout << message;
+	while ((cin >> value).fail())
 	{
 		cin.clear();
 		cin.ignore(1000, '\n');
-		cout << "Ошибка при вводе " << endl << msg;
+		cout << "Ошибка при вводе " << endl << message;
 	}
-	return val;
+	return value;
 }
 
 void repairpipe(Pipe& pipe1)
@@ -97,7 +97,9 @@ void repairceh(CS& cs1)
 		{
 			cout << " Вы ввели число не в том диапозоне " << endl;
 			x = inputInteger("Введите : 1 - Запуск цеха ; 0 - Остановка цеха");
+			
 		}
+		
 		
 		if (x == 1)
 		{
