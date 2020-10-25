@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <cstdlib> 
+#include <string>
 using namespace std;
 
 void menu()
@@ -153,10 +154,11 @@ void vvod(Pipe& pipe1, CS& cs1)
 		fin >> pipe1.id >> pipe1.length >> pipe1.diam >> pipe1.repaired;
 		fin >> cs1.id >> cs1.name >> cs1.amount >> cs1.amountworking >> cs1.efficiency;
 	}
+	fin.close();
 }
 
 
-void vivod(Pipe& pipe1, CS& cs1)
+void vivod(Pipe pipe1, CS cs1) // разобраться 
 {
 	ofstream outf("VIVOD.txt", ios::app);
 	outf << "Индентификатор трубы:" << pipe1.id << endl;
@@ -170,20 +172,26 @@ void vivod(Pipe& pipe1, CS& cs1)
 	outf << "Количество КС, находящихся на ремонте:" << cs1.amountworking << endl;
 	outf << "Эффективность КС:" << cs1.efficiency << endl;
 	outf << endl;
+	outf.close();
 }
 
-void prosmotr(Pipe pipe1, CS cs1)
+void prosmotrpipe(Pipe pipe1)
 {
 	cout << "Индентификатор трубы:" << pipe1.id << endl;
 	cout << "Длина трубы:" << pipe1.length << endl;
 	cout << "Диаметр трубы:" << pipe1.diam << endl;
 	cout << "Находится ли труба на ремонте?:" << pipe1.repaired << endl;
-	cout << endl;
+
+}
+
+void prosmotrcs(CS cs1)
+{
 	cout << "Индентификатор КС:" << cs1.id << endl;
 	cout << "Название КС:" << cs1.name << endl;
 	cout << "Количество КС:" << cs1.amount << endl;
 	cout << "Количество КС, находящихся на ремонте:" << cs1.amountworking << endl;
 	cout << "Эффективность КС:" << cs1.efficiency << endl;
+
 }
 
 
@@ -206,10 +214,17 @@ void addCS(CS& cs1)
 {
 	cs1.id= inputInteger("Введите идентификатор :");
 	cout << "Введите название КС: " << endl;
-	cin >> cs1.name;
+	cin.ignore();
+	getline(cin, cs1.name);
 	cs1.amount = inputInteger("Введите количество труб:");
 	cs1.amountworking = inputInteger("Введите количество рабочих труб:");
-	cs1.efficiency = inputFloat("Эффективность :");
+	float efficiency = inputFloat("Эффективность в диапазоне от 0 до 1 :");
+	while (efficiency > 1 || efficiency < 0 )
+	{
+		cout << "Вы ввели число не в том диапозоне " << endl;
+		efficiency = inputFloat("Эффективность в диапазоне от 0 до 1 : ");
+	}
+	cs1.efficiency = efficiency;
 	cs1.accept = true;
 }
 
@@ -237,7 +252,9 @@ int main()
 				}
 				case 3:
 				{
-					prosmotr(pipe1, cs1);
+					prosmotrpipe(pipe1);
+					cout << endl;
+					prosmotrcs(cs1);
 					system("pause");
 					break;
 				}
