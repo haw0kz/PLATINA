@@ -9,12 +9,13 @@ void menu()
 	system("cls");
 	cout << "1.Добавить трубу " << endl;
 	cout << "2.Добавить КС " << endl;
-	cout << "3.Просмотр всех объектов" << endl;
-	cout << "4.Редактировать трубу " << endl;
-	cout << "5.Редактировать КС" << endl;
-	cout << "6.Сохранить" << endl;
-	cout << "7.Загрузить" << endl;
-	cout << "8.Выход" << endl;
+	cout << "3.Просмотр всех труб:" << endl;
+	cout << "4.Просмотр всех КС:" << endl;
+	cout << "5.Редактировать трубу " << endl;
+	cout << "6.Редактировать КС" << endl;
+	cout << "7.Сохранить" << endl;
+	cout << "8.Загрузить" << endl;
+	cout << "9.Выход" << endl;
 }
 
 struct Pipe
@@ -76,17 +77,17 @@ void repairpipe(Pipe& pipe1)
 
 }
 
-int correct(int left, int right)	
+int correct(int left, int right)
 {
-		int x;	
-		while ((cin >> x).fail() || x<left || x>right)	
-		{
-				cin.clear();			
-				cin.ignore(1000, '\n');	
-				cout << endl;
-				cout << "Ошибка при вводе" << endl << "Введите команду: ";
-		}
-		return x;		
+	int x;
+	while ((cin >> x).fail() || x<left || x>right)
+	{
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cout << endl;
+		cout << "Ошибка при вводе" << endl << "Введите команду: ";
+	}
+	return x;
 }
 
 void repairceh(CS& cs1)
@@ -98,10 +99,10 @@ void repairceh(CS& cs1)
 		{
 			cout << " Вы ввели число не в том диапозоне " << endl;
 			x = inputInteger("Введите : 1 - Запуск цеха ; 0 - Остановка цеха");
-			
+
 		}
-		
-		
+
+
 		if (x == 1)
 		{
 			if (cs1.amount <= cs1.amountworking)
@@ -135,7 +136,7 @@ void repairceh(CS& cs1)
 			}
 
 		}
-		    	
+
 	}
 	else
 	{
@@ -146,32 +147,35 @@ void repairceh(CS& cs1)
 
 void vvod(Pipe& pipe1, CS& cs1)
 {
-	ifstream fin("vvod.txt");
+	ifstream fin("text.txt");
 	if (!fin.is_open())
 		cout << "Файл не может быть открыт!\n";
 	else
 	{
 		fin >> pipe1.id >> pipe1.length >> pipe1.diam >> pipe1.repaired;
+
 		fin >> cs1.id >> cs1.name >> cs1.amount >> cs1.amountworking >> cs1.efficiency;
 	}
 	fin.close();
 }
 
 
-void vivod(Pipe pipe1, CS cs1) // разобраться 
+void vivod(const Pipe& pipe1, const CS& cs1)
 {
-	ofstream outf("VIVOD.txt", ios::app);
-	outf << "Индентификатор трубы:" << pipe1.id << endl;
-	outf << "Длина трубы:" << pipe1.length << endl;
-	outf << "Диаметр трубы:" << pipe1.diam << endl;
-	outf << "Находится ли труба на ремонте?:" << pipe1.repaired << endl;
-	outf << endl;
-	outf << "Индентификатор КС:" << cs1.id << endl;
-	outf << "Название КС:" << cs1.name << endl;
-	outf << "Количество КС:" << cs1.amount << endl;
-	outf << "Количество КС, находящихся на ремонте:" << cs1.amountworking << endl;
-	outf << "Эффективность КС:" << cs1.efficiency << endl;
-	outf << endl;
+	// константые ссылки и один файл ввода-вывода
+	ofstream outf("text.txt", ios::out);
+	if (!outf.is_open())
+		cout << "Файл не может быть открыт!\n";
+	else
+	outf << pipe1.id << endl;
+	outf << pipe1.length << endl;
+	outf << pipe1.diam << endl;
+	outf << pipe1.repaired << endl;
+	outf << cs1.id << endl;
+	outf << cs1.name << endl;
+	outf << cs1.amount << endl;
+	outf << cs1.amountworking << endl;
+	outf << cs1.efficiency << endl;
 	outf.close();
 }
 
@@ -195,31 +199,31 @@ void prosmotrcs(CS cs1)
 }
 
 
-void addpipe(Pipe& pipe1 )
+void addpipe(Pipe& pipe1)
 {
-	 pipe1.id = inputInteger("Введите идентификатор:");
-	 pipe1.length = inputFloat("Введите длину: ");
-	 pipe1.diam = inputFloat("Введите диаметр:");
-	 int repair = inputInteger("Введите 1 : труба в ремонте; 0 : труба не в ремонте ");
-	 while (!(repair == 0 || repair == 1))
-	 {
-		 cout << "Вы ввели число не в том диапозоне " << endl;
-		 repair = inputInteger("Введите 1 : труба в ремонте; 0 : труба не в ремонте ");
-	 }
-	 pipe1.repaired = repair;
-	 pipe1.accept = true;
+	pipe1.id = inputInteger("Введите идентификатор:");
+	pipe1.length = inputFloat("Введите длину: ");
+	pipe1.diam = inputFloat("Введите диаметр:");
+	int repair = inputInteger("Введите 1 : труба в ремонте; 0 : труба не в ремонте ");
+	while (!(repair == 0 || repair == 1))
+	{
+		cout << "Вы ввели число не в том диапозоне " << endl;
+		repair = inputInteger("Введите 1 : труба в ремонте; 0 : труба не в ремонте ");
+	}
+	pipe1.repaired = repair;
+	pipe1.accept = true;
 }
 
 void addCS(CS& cs1)
 {
-	cs1.id= inputInteger("Введите идентификатор :");
+	cs1.id = inputInteger("Введите идентификатор :");
 	cout << "Введите название КС: " << endl;
 	cin.ignore();
 	getline(cin, cs1.name);
 	cs1.amount = inputInteger("Введите количество труб:");
 	cs1.amountworking = inputInteger("Введите количество рабочих труб:");
 	float efficiency = inputFloat("Эффективность в диапазоне от 0 до 1 :");
-	while (efficiency > 1 || efficiency < 0 )
+	while (efficiency > 1 || efficiency < 0)
 	{
 		cout << "Вы ввели число не в том диапозоне " << endl;
 		efficiency = inputFloat("Эффективность в диапазоне от 0 до 1 : ");
@@ -229,7 +233,7 @@ void addCS(CS& cs1)
 }
 
 int main()
-{ 
+{
 	Pipe pipe1;
 	CS cs1;
 	setlocale(LC_ALL, "ru");
@@ -237,65 +241,69 @@ int main()
 	while (true)
 	{
 
-			menu();
-			switch (correct(0, 7))
-			{
-				case 1:
-				{
-					addpipe(pipe1);
-					break;
-				}
-				case 2:
-				{
-					addCS(cs1);
-					break;
-				}
-				case 3:
-				{
-					prosmotrpipe(pipe1);
-					cout << endl;
-					prosmotrcs(cs1);
-					system("pause");
-					break;
-				}
-				case 4:
-				{
-					repairpipe(pipe1);
-					system("pause");
-					break;
-				}
-				case 5:
-				{
-					repairceh(cs1);
-					system("pause");
-					break;
-				}
-				case 6:
-				{
-					vivod(pipe1,cs1);
-					system("pause");
-					break;
-				}
-				case 7:
-				{
-					vvod(pipe1,cs1);
-					system("pause");
-					break;
-				}
-				case 0:
-				{
-					return 0;
-				}
+		menu();
+		switch (correct(0, 8))
+		{
+		case 1:
+		{
+			addpipe(pipe1);
+			break;
+		}
+		case 2:
+		{
+			addCS(cs1);
+			break;
+		}
+		case 3:
+		{
+			prosmotrpipe(pipe1);
 			
-				
-			}	
-	
+			break;
+		}
+
+		case 4:
+		{
+		
+			prosmotrcs(cs1);
+			
+			break;
+		}
+		case 5:
+		{
+			repairpipe(pipe1);
+			
+			break;
+		}
+		case 6:
+		{
+			repairceh(cs1);
+			
+			break;
+		}
+		case 7:
+		{
+			vivod(pipe1, cs1);
+			
+			break;
+		}
+		case 8:
+		{
+			vvod(pipe1, cs1);
+		
+			break;
+		}
+
+		case 0:
+		{
+			return 0;
+		}
+
+
+		}
+
 	}
 
 }
-
-
-
 
 
 

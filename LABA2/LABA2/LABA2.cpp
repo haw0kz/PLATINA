@@ -158,9 +158,13 @@ void vvod(Pipe& pipe1, CS& cs1)
 }
 
 
-void vivod(Pipe pipe1, CS cs1) // разобраться 
+void vivod(Pipe pipe1, CS cs1) 
 {
-	ofstream outf("VIVOD.txt", ios::app);
+
+	ofstream outf("VIVOD.txt", ios::out);
+	if (!outf.is_open())
+		cout << "Файл не может быть открыт!\n";
+	else
 	outf << "Индентификатор трубы:" << pipe1.id << endl;
 	outf << "Длина трубы:" << pipe1.length << endl;
 	outf << "Диаметр трубы:" << pipe1.diam << endl;
