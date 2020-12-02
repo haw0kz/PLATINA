@@ -12,17 +12,17 @@ Pipe::Pipe()
 ostream& operator << (ostream& out, const Pipe& pipe)
 {
 	
-	out << "Индентификатор: "<< pipe.id << endl;
-	out << "Длина: "<< pipe.length << endl;
-	out << "Диаметр: "<< pipe.diam << endl;
-	out << "В ремонте?  "<< pipe.repaired << endl;
+	out << "Индентификатор ТРУБЫ: "<< pipe.id << endl;
+	out << "Длина ТРУБЫ: "<< pipe.length << endl;
+	out << "Диаметр ТРУБЫ: "<< pipe.diam << endl;
+	out << "В ремонте ТРУБА?  "<< pipe.repaired << endl;
 	return out;
 }
 istream& operator >> (istream& in, Pipe& pipe)
 {
-	verification(pipe.length, "Введите длину трубы: ");
-	verification(pipe.diam, "Введите диаметр трубы: ");
-	verification(pipe.repaired, "В ремонте?: ");
+	verification(pipe.length, "Введите длину ТРУБы: ");
+	verification(pipe.diam, "Введите диаметр ТРУБы: ");
+	verification(pipe.repaired, "В ремонте ТРУБА?: ");
 	return in;
 }
 

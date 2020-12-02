@@ -13,18 +13,20 @@ void menu()
 {
 	system("cls");
 	cout << "1.Добавить трубу " << endl;
-	cout << "2.Добавить КС " << endl;
+	cout << "2.Добавить CS " << endl;
 	cout << "3.Просмотр всех труб:" << endl;
-	cout << "4.Просмотр всех КС:" << endl;
+	cout << "4.Просмотр всех CS:" << endl;
 	cout << "5.Редактировать трубу " << endl;
-	cout << "6.Редактировать КС" << endl;
-	cout << "7.Сохранить" << endl;
-	cout << "8.Загрузить" << endl;
-	cout << "9.Удалить трубу" << endl;
-	cout << "10.Удалить КС" << endl;
-	cout << "11.Поиск CS по названию:" << endl;
-	cout << "12.Поиск CS по проценту незадействованных цехов:" << endl;
-	cout << "13.Поиск трубы по признаку «в ремонте» " << endl;
+	cout << "6.Редактировать CS" << endl;
+	cout << "7.Сохранить ТРУБЫ" << endl;
+	cout << "8.Загрузить ТРУБЫ" << endl;
+	cout << "9.Сохранить CS" << endl;
+	cout << "10.Загрузить CS" << endl;
+	cout << "11.Удалить трубу" << endl;
+	cout << "12.Удалить CS" << endl;
+	cout << "13.Поиск CS по названию:" << endl;
+	cout << "14.Поиск CS по проценту незадействованных цехов:" << endl;
+	cout << "15.Поиск трубы по признаку «в ремонте» " << endl;
 
 	cout << "0.Выход" << endl;
 }
@@ -41,9 +43,6 @@ int GetCorrectNumber(int left, int right)
 	return x;
 
 }
-
-
-
 
 int inputInteger(string message)
 {
@@ -73,12 +72,9 @@ float inputFloat(string message)
 }
 
 void repairpipe(Pipe& pipe)
-{
-	
+{	
  verification(pipe.repaired, "Ремонт: ");
-
 }
-
 
 void repairceh(CS& cs)
 {
@@ -88,7 +84,6 @@ void repairceh(CS& cs)
 		{
 			cout << " Вы ввели число не в том диапозоне " << endl;
 			x = inputInteger("Введите : 1 - Запуск цеха ; 0 - Остановка цеха");
-
 		}
 
 		if (x == 1)
@@ -247,7 +242,7 @@ vector<int> CSFilterofprocent(vector<CS>& cs)
 	vector<int> result;
 	float g;
 	cin >> g;
-	for (int i = 0; i < cs.size(); i++)
+	for (int i = 0; i< cs.size(); i++)
 	{
 		float f;
 		f = (((float)cs[i].amount - (float)cs[i].amountworking) / (float)cs[i].amount) * 100;
@@ -264,7 +259,8 @@ vector<int> CSFilterofname(vector<CS>& cs)
 	cout << "Введите название CS: ";
 	vector<int> result;
 	string b;
-	cin >> b;
+	cin.ignore(1, '\n');
+	getline(cin, b);
 	for (int i = 0; i < cs.size(); i++)
 	{
 		if (cs[i].name == b)
@@ -290,7 +286,7 @@ int main()
 	{
 
 		menu();
-		switch (GetCorrectNumber(0, 11))
+		switch (GetCorrectNumber(0, 15))
 		{
 		case 1:
 		{
@@ -313,22 +309,22 @@ int main()
 		{
 			for (auto& pipe : pipegroup)
 			cout << pipe;
-			system("pause");
 			cout << endl;
+			system("pause");
 			break;
 		}
 
 		case 4:
 		{
-			CS cs;
 			for (auto& cs : CSgroup)
 			cout << cs;
+			cout << endl;
 			system("pause");
 			break;
 		}
 		case 5:
 		{
-			if (pipe_accept = true)
+			if (pipe_accept == true)
 			{
 				repairpipe(SelectPipe(pipegroup));
 				system("pause");
@@ -344,7 +340,7 @@ int main()
 		case 6:
 
 		{
-			if (cs_accept = true)
+			if (cs_accept == true)
 			{
 				repairceh(SelectCS(CSgroup));
 				system("pause");
@@ -360,49 +356,128 @@ int main()
 		}
 		case 7:
 		{
-
-			ofstream fout;
-			fout.open(nameoffile(), ios::out);
-			if (fout.is_open())
+			if (pipegroup.size() > 0)
 			{
-				fout << pipegroup.size();
-				for (Pipe pipe : pipegroup)
-				fout << pipe;
-				fout.close();
+				ofstream fout;
+				fout.open(nameoffile(), ios::out);
+				if (!fout.is_open())
+					cout << "Файл не может быть открыт!\n";
+				else
+				{
+					fout << pipegroup.size();
+					for (Pipe pipe : pipegroup)
+					fout << pipe;
+					fout.close();
+					break;
+				}
+			
 			}
-			system("pause");
-			break;
+			else
+			{
+			    cout << "Вы забыли ввести данные для труб!\n" << endl;
+				system("Pause");
+				break;
+			}
 		}
 		case 8:
 		{
-			ifstream fin;
-			fin.open(nameoffile(), ios::in);
-			if (fin.is_open())
 			{
-				int countpipe;
-				fin >> countpipe;
-				pipegroup.resize(countpipe);
-				for (Pipe& pipe : pipegroup)
-				fin >> pipe;
-				fin.close();
+				ifstream fin;
+				fin.open(nameoffile(), ios::in);
+				if (!fin.is_open())
+					cout << "Файл не может быть открыт!\n";
+				else
+				{
+					int countofpipe;
+					fin >> countofpipe;
+					pipegroup.resize(countofpipe);
+					for (Pipe& pipe : pipegroup)
+					fin >> pipe;
+					fin.close();
+					break;
+					
+				}
 			}
-			system("pause");
-			break;
+		
 		}
 
 		case 9:
 		{
-			deletePipe(pipegroup);
-			break;
-		}
+			if (CSgroup.size() > 0)
+			{
+				ofstream fout;
+				fout.open(nameoffile(), ios::out);
+				if (!fout.is_open())
+					cout << "Файл не может быть открыт!\n";
+				else
+				{
+					fout << CSgroup.size();
+					for (CS cs : CSgroup)
+					fout << cs;
+					fout.close();
+					break;
+				}
+			}
+			else
+			{
+				cout << "Вы забыли ввести данные для CS!\n" << endl;
+				system("Pause");
+				break;
+			}
 
+		}
 		case 10:
 		{
-			deleteCS(CSgroup);
-			break;
+			
+				ifstream fin;
+				fin.open(nameoffile(), ios::in);
+				if (!fin.is_open())
+					cout << "Файл не может быть открыт!\n";
+				else
+				{
+					int countofCS;
+					fin >> countofCS;
+					pipegroup.resize(countofCS);
+					for (CS& cs : CSgroup)
+					fin >> cs;
+				    fin.close();
+					break;
+					
+				}
+			
 		}
 
 		case 11:
+		{
+			if (pipegroup.size() > 0)
+			{
+				deletePipe(pipegroup);
+				break;
+			}
+			else
+			{
+				cout << "Вы забыли ввести трубы!\n" << endl;
+				system("Pause");
+				break;
+			}
+		}
+
+		case 12:
+		{
+			if (CSgroup.size() > 0)
+			{
+				deleteCS(CSgroup);
+				break;
+			}
+			else
+			{
+				cout << "Вы забыли ввести  CS!\n" << endl;
+				system("Pause");
+				break;
+			}
+		}
+
+		case 13:
 		{
 			auto index = CSFilterofname(CSgroup);
 			for (int i = 0; i < index.size(); i++)
@@ -413,18 +488,18 @@ int main()
 			break;
 		}
 
-		case 12:
+		case 14:
 		{
-			auto indd = CSFilterofprocent(CSgroup);
-			for (int i = 0; i < indd.size(); i++)
+			auto index = CSFilterofprocent(CSgroup);
+			for (int i = 0; i < index.size(); i++)
 			{
-				cout << CSgroup[indd[i]] << endl;
+				cout << CSgroup[index[i]] << endl;
 			}
 			system("pause");
 			break;
 		}
 
-		case 13:
+		case 15:
 		{
 			auto index = Pipefilterofrepair(pipegroup);
 			for (int i = 0; i < index.size(); i++)

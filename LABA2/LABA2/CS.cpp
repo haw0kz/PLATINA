@@ -11,22 +11,20 @@ CS::CS()
 
 ostream& operator << (ostream& out, const CS& cs)
 {
-    out << "Индентификатор: " << cs.id << endl;
-    out << "Название: " << cs.name << endl;
-    out << "Количество : " << cs.amount << endl;
-    out << "Количество работающих: " << cs.amountworking << endl;
-    out << "Эффективность: " << cs.efficiency << endl;
+    out << "Индентификатор CS: " << cs.id << endl;
+    out << "Название CS: " << cs.name << endl;
+    out << "Количество CS : " << cs.amount << endl;
+    out << "Количество работающих: CS " << cs.amountworking << endl;
+    out << "Эффективность CS: " << cs.efficiency << endl;
     return out;
 }
 istream& operator >> (istream& in, CS& cs)
 {
     cout << "Введите название:";
-    cin >> cs.name;
+    cin.ignore(1, '\n');
+    getline(cin, cs.name);
     verification(cs.amount, "Введите количество цехов:");
-    do
-    {
-      verification(cs.amountworking, "Введите количество работающих цехов:");
-    } while (cs.amountworking > cs.amount);
+    verification(cs.amountworking, "Введите количество работающих цехов:");
     verification(cs.efficiency, "Введите эффективность:");
     return in;
 }
