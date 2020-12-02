@@ -179,7 +179,7 @@ void vivod(const Pipe& pipe1, const CS& cs1)
 	outf.close();
 }
 
-void prosmotrpipe(Pipe pipe1)
+void prosmotrpipe(const Pipe& pipe1)
 {
 	cout << "Индентификатор трубы:" << pipe1.id << endl;
 	cout << "Длина трубы:" << pipe1.length << endl;
@@ -188,7 +188,7 @@ void prosmotrpipe(Pipe pipe1)
 
 }
 
-void prosmotrcs(CS cs1)
+void prosmotrcs(const CS& cs1)
 {
 	cout << "Индентификатор КС:" << cs1.id << endl;
 	cout << "Название КС:" << cs1.name << endl;
@@ -257,7 +257,7 @@ int main()
 		case 3:
 		{
 			prosmotrpipe(pipe1);
-			
+			system("pause");
 			break;
 		}
 
@@ -265,31 +265,31 @@ int main()
 		{
 		
 			prosmotrcs(cs1);
-			
+			system("pause");
 			break;
 		}
 		case 5:
 		{
 			repairpipe(pipe1);
-			
+			system("pause");
 			break;
 		}
 		case 6:
 		{
 			repairceh(cs1);
-			
+			system("pause");
 			break;
 		}
 		case 7:
 		{
 			vivod(pipe1, cs1);
-			
+			system("pause");
 			break;
 		}
 		case 8:
 		{
 			vvod(pipe1, cs1);
-		
+			system("pause");
 			break;
 		}
 

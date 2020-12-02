@@ -20,8 +20,8 @@ ostream& operator << (ostream& out, const Pipe& pipe)
 }
 istream& operator >> (istream& in, Pipe& pipe)
 {
-	verification(pipe.length, "Введите длину ТРУБы: ");
-	verification(pipe.diam, "Введите диаметр ТРУБы: ");
+	verification(pipe.length, "Введите длину ТРУБЫ: ");
+	verification(pipe.diam, "Введите диаметр ТРУБЫ: ");
 	verification(pipe.repaired, "В ремонте ТРУБА?: ");
 	return in;
 }

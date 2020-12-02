@@ -294,7 +294,6 @@ int main()
 			cin >> pipe;
 			pipe_accept = true;
 			pipegroup.push_back(pipe);
-			
 			break;
 		}
 		case 2:
@@ -309,7 +308,6 @@ int main()
 		{
 			for (auto& pipe : pipegroup)
 			cout << pipe;
-			cout << endl;
 			system("pause");
 			break;
 		}
@@ -317,8 +315,7 @@ int main()
 		case 4:
 		{
 			for (auto& cs : CSgroup)
-			cout << cs;
-			cout << endl;
+			cout << cs;	
 			system("pause");
 			break;
 		}
@@ -407,23 +404,25 @@ int main()
 			{
 				ofstream fout;
 				fout.open(nameoffile(), ios::out);
-				if (!fout.is_open())
-					cout << "Файл не может быть открыт!\n";
-				else
+				if (fout.is_open())
 				{
 					fout << CSgroup.size();
 					for (CS cs : CSgroup)
 					fout << cs;
 					fout.close();
-					break;
+				}	
+				else
+				{
+					cout << "Файл не может быть открыт!\n";
 				}
 			}
 			else
 			{
 				cout << "Вы забыли ввести данные для CS!\n" << endl;
-				system("Pause");
-				break;
+				
 			}
+			system("Pause");
+			break;
 
 		}
 		case 10:
@@ -437,14 +436,12 @@ int main()
 				{
 					int countofCS;
 					fin >> countofCS;
-					pipegroup.resize(countofCS);
+					CSgroup.resize(countofCS);
 					for (CS& cs : CSgroup)
 					fin >> cs;
-				    fin.close();
+					fin.close();
 					break;
-					
 				}
-			
 		}
 
 		case 11:
