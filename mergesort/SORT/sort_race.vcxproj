@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{86E11B60-2924-4815-B415-80FCBA3F96DC}</ProjectGuid>
+    <ProjectGuid>{ABA3C79A-6330-469F-94EB-C9B9FA7DEE0B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>mergesort</RootNamespace>
+    <RootNamespace>sortrace</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -148,6 +148,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="mergesort.cpp" />
+    <ClCompile Include="sort_race.cpp" />
+    <ClCompile Include="std_sort.cpp" />
+    <ClCompile Include="test_run.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
