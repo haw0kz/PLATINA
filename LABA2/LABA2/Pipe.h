@@ -5,10 +5,11 @@
 class Pipe
 {
 	int id;
+	static int MaxID;
     public:
 	Pipe();
 
-	static int MaxID;
+	
 	float length;
 	float diam;
 	bool repaired = false;

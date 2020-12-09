@@ -5,9 +5,10 @@
 class CS
 {
 	int id;
+	static int MaxID;
 public:
 	CS();
-	static int MaxID;
+	
 	std::string name;
 	int amount;
 	int amountworking;

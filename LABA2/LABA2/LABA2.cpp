@@ -73,7 +73,9 @@ float inputFloat(string message)
 
 void repairpipe(Pipe& pipe)
 {	
+
  verification(pipe.repaired, "Ремонт: ");
+
 }
 
 void repairceh(CS& cs)
@@ -185,7 +187,7 @@ void deletePipe(vector<Pipe>& p)
 {
 	cout << "Введите индекс трубы: ";
 	unsigned int index = GetCorrectNumber(1u, p.size());
-	p.erase(p.begin() + index - 1);
+	p.erase(p.begin() + index - 1); 
 }
 
 void deleteCS(vector<CS>& k)
@@ -216,7 +218,7 @@ vector<int> Pipefilterofrepair(vector<Pipe>& pipe)
 	cout << "1 - находится в ремонте, 0 - находится не в ремонте" << endl;
 	int a;
 	cin >> a;
-	vector<int> result;
+	vector<int> result; // в вектор result собираем индексы
 	for (int i = 0; i < pipe.size(); i++)
 	{
 		if (pipe[i].repaired == a)
@@ -321,35 +323,15 @@ int main()
 		}
 		case 5:
 		{
-			if (pipe_accept == true)
-			{
-				repairpipe(SelectPipe(pipegroup));
-				system("pause");
-				break;
-			}
-			else
-			{
-				cout << "Вы не ввели данные для ТРУБЫ" << endl;
-				system("pause");
-				break;
-			}
+			repairpipe(SelectPipe(pipegroup));
+			system("pause");
+			break;
 		}
 		case 6:
-
 		{
-			if (cs_accept == true)
-			{
-				repairceh(SelectCS(CSgroup));
-				system("pause");
-				break;
-			}
-			else
-			{
-				cout << "Вы не ввели данные для ТРУБЫ" << endl;
-				system("pause");
-				break;
-			}
-
+			repairceh(SelectCS(CSgroup));
+			system("pause");
+			break;
 		}
 		case 7:
 		{
@@ -379,12 +361,14 @@ int main()
 		case 8:
 		{
 			{
+				
 				ifstream fin;
 				fin.open(nameoffile(), ios::in);
 				if (!fin.is_open())
 					cout << "Файл не может быть открыт!\n";
 				else
 				{
+					
 					int countofpipe;
 					fin >> countofpipe;
 					pipegroup.resize(countofpipe);
@@ -427,13 +411,14 @@ int main()
 		}
 		case 10:
 		{
-			
+			    
 				ifstream fin;
 				fin.open(nameoffile(), ios::in);
 				if (!fin.is_open())
 					cout << "Файл не может быть открыт!\n";
 				else
 				{
+					
 					int countofCS;
 					fin >> countofCS;
 					CSgroup.resize(countofCS);
