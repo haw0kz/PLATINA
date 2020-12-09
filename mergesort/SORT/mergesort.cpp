@@ -64,27 +64,27 @@ void mergesort2(vector<int>&a, vector<int>& b, size_t start, size_t end)
 
         if (s1 >= e1 || (s2 < end && a.at(s2) <= a.at(s1)))
         {
-            b[i]=a.at(s2);
+            b.at(i)=a.at(s2);
             ++s2;
         }
         else
         {
-            b[i] = a.at(s1);
+            b.at(i) = a.at(s1);
             ++s1;
         }
         i++;
     }
     for (size_t i = start; i < end; ++i)
-        a[i] = b.at(i - start);
+        a.at(i) = b.at(i - start);
 
 }
 
 vector<int>mrgsrtPULKOV(vector<int>a)
 {
     vector<int>b(a.size(),0);
-    vector<int>res(a.begin(), a.end());
-    mergesort2(res,b, 0, res.size());
-    return res;
+    //vector<int>res(a.begin(), a.end());
+    mergesort2(a,b, 0, a.size());
+    return a;
 
 }
 
