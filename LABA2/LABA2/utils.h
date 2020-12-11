@@ -5,13 +5,20 @@
 
 
 template <typename T>
-
-void verification(T& x, std::string name)
+bool correct(T var, T left, T right)
 {
-    do {
-        std::cin.clear();
-        std::cin.ignore(1000, '\n');
-        std::cout << name;
-        std::cin >> x;
-    } while (x < 0 || std::cin.fail());
+	return var >= left && var <= right;
+}
+
+template <typename T>
+T verification(T left, T right, std::string message)
+{
+	T x;
+	while ((std::cin >> x).fail() || !correct(x, left, right))
+	{
+		std::cin.clear();
+		std::cin.ignore(1000, '\n');
+		std::cout << message;
+	}
+	return x;
 }

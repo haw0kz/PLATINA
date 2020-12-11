@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <unordered_map>
 #include "Pipe.h"
 #include "CS.h"
 #include "utils.h"
@@ -30,6 +31,42 @@ void menu()
 
 	cout << "0.Выход" << endl;
 }
+
+
+template<typename PC, typename T>
+using Filter = bool(*)(PC & pc, T param);
+
+bool verificationNAME(CS& cs, string parametr)
+{
+	return cs.GET_Name() == parametr;
+}
+
+bool verificationREPAIR(Pipe& pipe, bool repair)
+{
+	return pipe.GET_Repair() == repair;
+}
+
+bool verificationCS(CS& cs, float percent)
+{
+	return abs(percent - ((float)(cs.GET_amount() - (float)cs.GET_amountworking()) / (float)cs.GET_amount() * 100)) < 1e-6;
+}
+
+
+template<typename PC, typename T>
+vector<int> findpipeORcs(unordered_map<int, PC>& pc, Filter<PC, T> f, T param)
+{
+	vector <int> res;
+	res.reserve(pc.size());
+	for (auto& pipeorks : pc)
+	{
+		if (f(pipeorks.second, param))
+			res.push_back(pipeorks.first);
+	}
+	return res;
+}
+
+
+/*
 
 int GetCorrectNumber(int left, int right)
 {
@@ -70,13 +107,14 @@ float inputFloat(string message)
 	}
 	return value;
 }
-
+/*
 void repairpipe(Pipe& pipe)
 {	
 
  verification(pipe.repaired, "Ремонт: ");
 
 }
+
 
 void repairceh(CS& cs)
 {
@@ -183,21 +221,25 @@ void prosmotrcs(const CS& cs)
 
 }
 */
-void deletePipe(vector<Pipe>& p)
+
+
+
+
+void deletePipe(unordered_map<int, Pipe>& p)
 {
 	cout << "Введите индекс трубы: ";
-	unsigned int index = GetCorrectNumber(1u, p.size());
-	p.erase(p.begin() + index - 1); 
+	unsigned int index = verification(1u, p.size(), "Введите индекс трубы: ");
+	p.erase(p.find(index));
 }
 
-void deleteCS(vector<CS>& k)
+void deleteCS(unordered_map<int, CS>& k)
 {
 	cout << "Введите индекс КС: ";
-	unsigned int index = GetCorrectNumber(1u, k.size());
-	k.erase(k.begin() + index - 1);
+	unsigned int index = verification(1u, k.size(), "Введите индекс КС: ");
+	k.erase(k.find(index));
 }
 
-
+/*
 
 Pipe& SelectPipe(vector<Pipe>& g)
 {
@@ -212,6 +254,8 @@ CS& SelectCS(vector<CS>& g)
 	unsigned int index = GetCorrectNumber(1u, g.size());
 	return g[index - 1];
 }
+
+
 
 vector<int> Pipefilterofrepair(vector<Pipe>& pipe)
 {
@@ -228,6 +272,7 @@ vector<int> Pipefilterofrepair(vector<Pipe>& pipe)
 	}
 	return result;
 }
+*/
 
 string nameoffile()
 {
@@ -237,6 +282,8 @@ string nameoffile()
 	getline(cin, name);
 	return name;
 }
+
+/*
 
 vector<int> CSFilterofprocent(vector<CS>& cs)
 {
@@ -273,12 +320,13 @@ vector<int> CSFilterofname(vector<CS>& cs)
 	return result;
 }
 
+*/
 
 
 int main()
 {
-	vector <Pipe> pipegroup;
-	vector <CS> CSgroup;
+	unordered_map<int, Pipe> pipegroup;
+	unordered_map<int, CS> CSgroup;
 	setlocale(LC_ALL, "ru");
 
 	bool cs_accept = false;
@@ -288,51 +336,84 @@ int main()
 	{
 
 		menu();
-		switch (GetCorrectNumber(0, 15))
+		switch (verification(0, 15,"Введите команду MENU:"))
+
 		{
 		case 1:
 		{
 			Pipe pipe;
 			cin >> pipe;
-			pipe_accept = true;
-			pipegroup.push_back(pipe);
+			pipegroup.insert(pair<int, Pipe> (pipe.GET_ID(), pipe));
 			break;
 		}
 		case 2:
 		{
 			CS cs;
 			cin >> cs;
-			cs_accept = true;
-			CSgroup.push_back(cs);
+			CSgroup.insert(pair<int, CS>(cs.GET_ID(),cs));
 			break;
 		}
 		case 3:
 		{
-			for (auto& pipe : pipegroup)
-			cout << pipe;
-			system("pause");
-			break;
+			if (pipegroup.size() > 0)
+				for (auto iter = pipegroup.begin(); iter != pipegroup.end(); ++iter)
+				{
+					cout << iter->second;
+					
+				}
+			else 
+				cout << endl << "Вы забыли ввести данные трубы!\n";
+			    system("Pause");
+				break;
 		}
 
 		case 4:
 		{
-			for (auto& cs : CSgroup)
-			cout << cs;	
-			system("pause");
+			if (CSgroup.size() > 0)
+				for (auto iter = CSgroup.begin(); iter != CSgroup.end(); ++iter)
+				{
+					cout << iter->second;
+				}
+			else 
+			cout << endl << "Вы забыли ввести данные трубы!\n";
+			system("Pause");
 			break;
+			
 		}
+
 		case 5:
 		{
-			repairpipe(SelectPipe(pipegroup));
-			system("pause");
+			
+			unordered_map <int, Pipe>::iterator number;
+			if (pipegroup.size() > 0)
+			{
+				cout << "Введите ID Трубы: ";
+				unsigned index = verification(1u, Pipe::GET_MaxID(), "Введите ID Трубы: ");
+				number = pipegroup.find(index);
+				number->second.edit_pipe();
+			}
+			else
+			cout << "Вы забыли ввести данные КС!\n";
+			system("Pause");
 			break;
 		}
 		case 6:
 		{
-			repairceh(SelectCS(CSgroup));
-			system("pause");
+	
+			unordered_map <int, CS>::iterator number;
+			if (CSgroup.size() > 0)
+			{
+				cout << "Введите ID КС: ";
+				unsigned index = verification(1u, CS::GET_MaxID(), "Введите ID КС: ");
+				number = CSgroup.find(index);
+				number->second.edit_CS();
+			}
+			else 
+			cout << "Вы забыли ввести данные КС!\n";
+			system("Pause");
 			break;
 		}
+		
 		case 7:
 		{
 			if (pipegroup.size() > 0)
@@ -344,8 +425,8 @@ int main()
 				else
 				{
 					fout << pipegroup.size();
-					for (Pipe pipe : pipegroup)
-					fout << pipe;
+					for (auto iter = pipegroup.begin(); iter != pipegroup.end(); ++iter)
+						fout << iter->second;
 					fout.close();
 					break;
 				}
@@ -361,19 +442,22 @@ int main()
 		case 8:
 		{
 			{
-				
 				ifstream fin;
 				fin.open(nameoffile(), ios::in);
 				if (!fin.is_open())
 					cout << "Файл не может быть открыт!\n";
+
 				else
 				{
-					
-					int countofpipe;
-					fin >> countofpipe;
-					pipegroup.resize(countofpipe);
-					for (Pipe& pipe : pipegroup)
-					fin >> pipe;
+					pipegroup.erase(pipegroup.begin(), pipegroup.end());
+					int count;
+					fin >> count;
+					for (int i = 1; i <= count; ++i)
+					{
+						Pipe pipe;
+						fin >> pipe;
+						pipegroup.insert(pair<int, Pipe>(pipe.GET_ID(), pipe));
+					}
 					fin.close();
 					break;
 					
@@ -390,9 +474,9 @@ int main()
 				fout.open(nameoffile(), ios::out);
 				if (fout.is_open())
 				{
-					fout << CSgroup.size();
-					for (CS cs : CSgroup)
-					fout << cs;
+					fout << CSgroup.size() << endl;
+					for (auto iter = CSgroup.begin(); iter != CSgroup.end(); ++iter)
+					fout << iter->second;
 					fout.close();
 				}	
 				else
@@ -411,19 +495,15 @@ int main()
 		}
 		case 10:
 		{
-			    
 				ifstream fin;
 				fin.open(nameoffile(), ios::in);
 				if (!fin.is_open())
 					cout << "Файл не может быть открыт!\n";
 				else
 				{
-					
-					int countofCS;
-					fin >> countofCS;
-					CSgroup.resize(countofCS);
-					for (CS& cs : CSgroup)
+					CS cs;
 					fin >> cs;
+					CSgroup.insert(pair<int, CS>(cs.GET_ID(), cs));
 					fin.close();
 					break;
 				}
@@ -461,33 +541,47 @@ int main()
 
 		case 13:
 		{
-			auto index = CSFilterofname(CSgroup);
-			for (int i = 0; i < index.size(); i++)
+			string name;
+			cout << "Введите название CS для поиска: ";
+			cin.ignore(1, '\n');
+			getline(cin, name);
+			if (CSgroup.size() != 0)
 			{
-				cout << CSgroup[index[i]] << endl;
+				for (int i : findpipeORcs(CSgroup, verificationNAME, name))
+					cout << CSgroup[i];
 			}
+			else cout << "Забыли добавить CS!" << endl;
 			system("pause");
 			break;
 		}
 
 		case 14:
 		{
-			auto index = CSFilterofprocent(CSgroup);
-			for (int i = 0; i < index.size(); i++)
+			float percent;
+			cout << "Введите процент незадействованных CS для поиска:";
+			cin >> percent;
+			if (CSgroup.size() != 0)
 			{
-				cout << CSgroup[index[i]] << endl;
+
+				for (int i : findpipeORcs(CSgroup, verificationCS, percent))
+					cout << CSgroup[i];
 			}
+			else cout << "Забыли добавить CS!" << endl;
 			system("pause");
 			break;
 		}
 
 		case 15:
 		{
-			auto index = Pipefilterofrepair(pipegroup);
-			for (int i = 0; i < index.size(); i++)
+			bool number;
+			cout << "В ремонте труба? 1-да или 0-нет: ";
+			number = verification(0, 1, "В ремонте труба? 1-да или 0-нет: ");
+			if (pipegroup.size() != 0)
 			{
-				cout << pipegroup[index[i]] << endl;
+				for (int i : findpipeORcs(pipegroup, verificationREPAIR, number))
+					cout << pipegroup[i];
 			}
+			else cout << "Забыли добавить трубы!" << endl;
 			system("pause");
 			break;
 		}
@@ -496,8 +590,6 @@ int main()
 		{
 			return 0;
 		}
-
-
 		}
 
 	}

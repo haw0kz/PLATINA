@@ -4,15 +4,18 @@
 #include <fstream>
 class Pipe
 {
-	int id;
-	static int MaxID;
-    public:
-	Pipe();
-
+   int id;
+   static int MaxID;
+   public:
 	
+	Pipe();
 	float length;
 	float diam;
 	bool repaired = false;
+	void edit_pipe();
+	int GET_ID();
+	bool GET_Repair();
+	static unsigned int GET_MaxID();
 	
 	friend std::ostream& operator << (std::ostream& out, const Pipe& pipe);
 	friend std::istream& operator >> (std::istream& in, Pipe& pipe);

@@ -9,20 +9,44 @@ Pipe::Pipe()
 	id = ++MaxID;
 }
 
+unsigned int Pipe::GET_MaxID()
+{
+	return MaxID;
+}
+
+void Pipe::edit_pipe()
+{
+	repaired = !repaired;
+	cout << "Труба находится в ремонте? : " << repaired << endl;
+}
+
+int Pipe::GET_ID()
+{
+	return id;
+}
+bool Pipe::GET_Repair()
+{
+	return repaired;
+}
+
+
 ostream& operator << (ostream& out, const Pipe& pipe)
 {
 	
-	out << "Индентификатор ТРУБЫ: "<< pipe.id << endl;
-	out << "Длина ТРУБЫ: "<< pipe.length << endl;
-	out << "Диаметр ТРУБЫ: "<< pipe.diam << endl;
-	out << "В ремонте ТРУБА?  "<< pipe.repaired << endl;
+	cout << "Индентификатор ТРУБЫ: "<< pipe.id << endl;
+	cout << "Длина ТРУБЫ: "<< pipe.length << endl;
+	cout << "Диаметр ТРУБЫ: "<< pipe.diam << endl;
+	cout << "В ремонте ТРУБА?  "<< pipe.repaired << endl;
 	return out;
 }
 istream& operator >> (istream& in, Pipe& pipe)
 {
-	verification(pipe.length, "Введите длину ТРУБЫ: ");
-	verification(pipe.diam, "Введите диаметр ТРУБЫ: ");
-	verification(pipe.repaired, "В ремонте ТРУБА?: ");
+	cout << "Введите длину ТРУБЫ: " <<  endl;
+	pipe.length = verification(0,1000, "Введите длину ТРУБЫ: ");
+	cout << "Введите диаметр ТРУБЫ: " << endl;
+	pipe.diam=verification(0,1000, "Введите диаметр ТРУБЫ: ");
+	cout << "В ремонте ТРУБА?: " << endl;
+	pipe.repaired=verification(0,1, "В ремонте ТРУБА?: ");
 	return in;
 }
 
