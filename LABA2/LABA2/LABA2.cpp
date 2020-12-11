@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
+#include <typeinfo>
 #include "Pipe.h"
 #include "CS.h"
 #include "utils.h"
@@ -56,11 +57,13 @@ template<typename PC, typename T>
 vector<int> findpipeORcs(unordered_map<int, PC>& pc, Filter<PC, T> f, T param)
 {
 	vector <int> res;
+	int i = 0;
 	res.reserve(pc.size());
 	for (auto& pipeorks : pc)
 	{
 		if (f(pipeorks.second, param))
 			res.push_back(pipeorks.first);
+
 	}
 	return res;
 }
@@ -227,16 +230,30 @@ void prosmotrcs(const CS& cs)
 
 void deletePipe(unordered_map<int, Pipe>& p)
 {
-	cout << "Введите индекс трубы: ";
-	unsigned int index = verification(1u, p.size(), "Введите индекс трубы: ");
+	unsigned int index;
+	do
+	{
+		cout << "Введите индекс трубы: ";
+		index = verification(1u, Pipe::GET_MaxID(), "Введите индекс трубы: ");
+	} while (p.find(index) == p.end());
+	
 	p.erase(p.find(index));
+//	cout << typeid(p.find(index)).name();
+	system("pause");
+
+
 }
 
 void deleteCS(unordered_map<int, CS>& k)
 {
-	cout << "Введите индекс КС: ";
-	unsigned int index = verification(1u, k.size(), "Введите индекс КС: ");
+	unsigned int index;
+	do {
+		cout << "Введите индекс КС: ";
+		index = verification(1u, CS::GET_MaxID(), "Введите индекс КС: ");
+		k.erase(k.find(index));
+	} while (k.find(index) == k.end());
 	k.erase(k.find(index));
+
 }
 
 /*
@@ -329,8 +346,8 @@ int main()
 	unordered_map<int, CS> CSgroup;
 	setlocale(LC_ALL, "ru");
 
-	bool cs_accept = false;
-	bool pipe_accept = false;
+	//bool cs_accept = false;
+	//bool pipe_accept = false;
 
 	while (true)
 	{
@@ -514,14 +531,15 @@ int main()
 			if (pipegroup.size() > 0)
 			{
 				deletePipe(pipegroup);
-				break;
+				
 			}
 			else
 			{
 				cout << "Вы забыли ввести трубы!\n" << endl;
 				system("Pause");
-				break;
+				
 			}
+			break;
 		}
 
 		case 12:
@@ -529,14 +547,15 @@ int main()
 			if (CSgroup.size() > 0)
 			{
 				deleteCS(CSgroup);
-				break;
+				
 			}
 			else
 			{
 				cout << "Вы забыли ввести  CS!\n" << endl;
 				system("Pause");
-				break;
+				
 			}
+			break;
 		}
 
 		case 13:
