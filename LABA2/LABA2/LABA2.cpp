@@ -29,6 +29,13 @@ void menu()
 	cout << "13.Поиск CS по названию:" << endl;
 	cout << "14.Поиск CS по проценту незадействованных цехов:" << endl;
 	cout << "15.Поиск трубы по признаку «в ремонте» " << endl;
+	cout << "16.Создать газотранспортную сеть " << endl;
+	cout << "17.Сортировка сети" << endl;
+	cout << "18.Вывод в файл" << endl;
+	cout << "19.Загрузка из файла"  << endl;
+	cout << "20.Удалить вершину из графа (СТОК)" << endl;
+	cout << "21.Удалить газотранспортную сеть" << endl;
+	cout << "22.Посмотреть газотранспортную сеть" << endl;
 
 	cout << "0.Выход" << endl;
 }
@@ -69,164 +76,6 @@ vector<int> findpipeORcs(unordered_map<int, PC>& pc, Filter<PC, T> f, T param)
 }
 
 
-/*
-
-int GetCorrectNumber(int left, int right)
-{
-	int x;
-	while (((cin >> x)).fail() || x<left || x>right)
-	{
-		cin.clear();
-		cin.ignore(1000, '\n');
-		cout << "Ошибка при вводе" << endl << "Введите команду: ";
-	}
-	return x;
-
-}
-
-int inputInteger(string message)
-{
-	int value;
-	cout << message;
-	while ((cin >> value).fail())
-	{
-		cin.clear();
-		cin.ignore(1000, '\n');
-		cout << "Ошибка при вводе " << endl << message;
-
-	}
-	return value;
-}
-
-float inputFloat(string message)
-{
-	float value;
-	cout << message;
-	while ((cin >> value).fail())
-	{
-		cin.clear();
-		cin.ignore(1000, '\n');
-		cout << "Ошибка при вводе " << endl << message;
-	}
-	return value;
-}
-/*
-void repairpipe(Pipe& pipe)
-{	
-
- verification(pipe.repaired, "Ремонт: ");
-
-}
-
-
-void repairceh(CS& cs)
-{
-
-		int x = inputInteger("Введите : 1 - Запуск цеха ; 0 - Остановка цеха ");
-		while (!(x == 0 || x == 1))
-		{
-			cout << " Вы ввели число не в том диапозоне " << endl;
-			x = inputInteger("Введите : 1 - Запуск цеха ; 0 - Остановка цеха");
-		}
-
-		if (x == 1)
-		{
-			if (cs.amount <= cs.amountworking)
-			{
-				cout << "Ошибка, невозможно " << endl;
-			}
-			else
-			{
-				cs.amountworking++;
-				cout << "Новое количество цехов " << cs.amountworking << endl;
-			}
-
-		}
-		else
-		{
-			if (cs.amount < cs.amountworking)
-			{
-				cout << "Ошибка, невозможно " << endl;
-			}
-			else
-			{
-				if (cs.amountworking > 0)
-				{
-					cs.amountworking--;
-					cout << "Новое количество цехов " << cs.amountworking << endl;
-				}
-				else
-				{
-					cout << "Ошибка, невозможно" << endl;
-				}
-			}
-
-		}
-
-}
-
-
-/*
-void vvod(Pipe& pipe, CS& cs)
-{
-	ifstream fin("text.txt");
-	if (!fin.is_open())
-		cout << "Файл не может быть открыт!\n";
-	else
-	{
-		fin >> pipe.id >> pipe.length >> pipe.diam >> pipe.repaired;
-
-		fin >> cs.id >> cs.name >> cs.amount >> cs.amountworking >> cs.efficiency;
-	}
-	fin.close();
-}
-*/
-
-/*
-void vivod(const Pipe& pipe, const CS& cs)
-{
-	// константые ссылки и один файл ввода-вывода
-	ofstream outf("text.txt", ios::out);
-	if (!outf.is_open())
-		cout << "Файл не может быть открыт!\n";
-	else
-	outf << pipe1.id << endl;
-	outf << pipe1.length << endl;
-	outf << pipe1.diam << endl;
-	outf << pipe1.repaired << endl;
-	outf << cs1.id << endl;
-	outf << cs1.name << endl;
-	outf << cs1.amount << endl;
-	outf << cs1.amountworking << endl;
-	outf << cs1.efficiency << endl;
-	outf.close();
-}
- */
-
- /*
-void prosmotrpipe(const Pipe& pipe)
-{
-	cout << "Индентификатор трубы:" << pipe.id << endl;
-	cout << "Длина трубы:" << pipe.length << endl;
-	cout << "Диаметр трубы:" << pipe.diam << endl;
-	cout << "Находится ли труба на ремонте?:" << pipe.repaired << endl;
-
-}
-
-
-void prosmotrcs(const CS& cs)
-{
-	cout << "Индентификатор КС:" << cs.id << endl;
-	cout << "Название КС:" << cs.name << endl;
-	cout << "Количество КС:" << cs.amount << endl;
-	cout << "Количество КС, находящихся на ремонте:" << cs.amountworking << endl;
-	cout << "Эффективность КС:" << cs.efficiency << endl;
-
-}
-*/
-
-
-
 
 void deletePipe(unordered_map<int, Pipe>& p)
 {
@@ -256,40 +105,12 @@ void deleteCS(unordered_map<int, CS>& k)
 
 }
 
-/*
-
-Pipe& SelectPipe(vector<Pipe>& g)
+struct pairofCS
 {
-	cout << "Enter index:";
-	unsigned int index = GetCorrectNumber(1u, g.size());
-	return g[index - 1];
-}
+    int id_CS;
+    int id_pipe;
+};
 
-CS& SelectCS(vector<CS>& g)
-{
-	cout << "Enter index:";
-	unsigned int index = GetCorrectNumber(1u, g.size());
-	return g[index - 1];
-}
-
-
-
-vector<int> Pipefilterofrepair(vector<Pipe>& pipe)
-{
-	cout << "1 - находится в ремонте, 0 - находится не в ремонте" << endl;
-	int a;
-	cin >> a;
-	vector<int> result; // в вектор result собираем индексы
-	for (int i = 0; i < pipe.size(); i++)
-	{
-		if (pipe[i].repaired == a)
-		{
-			result.push_back(i);
-		}
-	}
-	return result;
-}
-*/
 
 string nameoffile()
 {
@@ -300,50 +121,233 @@ string nameoffile()
 	return name;
 }
 
-/*
-
-vector<int> CSFilterofprocent(vector<CS>& cs)
+void depth_first_search(int v, unordered_map<int, vector<pairofCS>>& g, unordered_map<int, bool>& count, vector<int>& answer) // добавляет ребро 
 {
-	cout << "Введите процент : ";
-	vector<int> result;
-	float g;
-	cin >> g;
-	for (int i = 0; i< cs.size(); i++)
-	{
-		float f;
-		f = (((float)cs[i].amount - (float)cs[i].amountworking) / (float)cs[i].amount) * 100;
-		if (abs(f - g) <= 1)
-		{
-			result.push_back(i);
+	count[v] = true;
+	vector<pairofCS> array;
+	if (g.find(v) != g.end()) {
+
+		array = g[v];
+		for (auto& unit : array) {
+			int to = unit.id_CS;
+
+			if (!count[to])
+				depth_first_search(to, g, count, answer);
 		}
 	}
-	return result;
+	answer.push_back(v);
 }
 
-vector<int> CSFilterofname(vector<CS>& cs)
+
+
+bool depth_first_search_for_cycle(int v, unordered_map<int, vector<pairofCS>> & g, unordered_map<int, int> & cl, int& cycle_st) // проверка на цикличность 
 {
-	cout << "Введите название CS: ";
-	vector<int> result;
-	string b;
-	cin.ignore(1, '\n');
-	getline(cin, b);
-	for (int i = 0; i < cs.size(); i++)
+	if (g.find(v) == g.end())
 	{
-		if (cs[i].name == b)
-		{
-			result.push_back(i);
+		return false;
+	}
+	cl[v] = 1;
+	for (size_t i = 0; i < g[v].size(); ++i) {
+		int to;
+
+		to = g[v][i].id_CS;
+		if (cl[to] == 0) {
+			if (depth_first_search_for_cycle(to, g, cl, cycle_st))  return true;
+		}
+		else if (cl[to] == 1) {
+			cycle_st = to;
+			return true;
 		}
 	}
-	return result;
+	cl[v] = 2;
+	return false;
 }
 
-*/
+unordered_map<int, int> visitedCS(unordered_map<int, vector<pairofCS>>& g) // 0-не посетили, 1-посетили, 2-при выходе из вершины 
+{
+	unordered_map<int, int> visitedArray;
+	for (auto& unit : g)
+	{
+		visitedArray[unit.first] = 0;
+		for (auto& p : unit.second)
+		{
+			visitedArray[p.id_CS] = 0;
+		}
+	}
+	return visitedArray;
+}
+
+bool searchforcycle(unordered_map<int, vector<pairofCS>>& g)
+{
+	unordered_map<int, int> p;
+	int cycle_st, cycle_end;
+	p = visitedCS(g);
+	cycle_st = -1;
+	for (auto& unit : p)
+		if (depth_first_search_for_cycle(unit.first, g, p, cycle_st)) break;
+	if (cycle_st == -1) return false;
+	else return true;
+}
+
+unordered_map<int, bool> usedCS(unordered_map<int, vector<pairofCS>>& g)
+{
+	unordered_map<int, bool> usedArray;
+	for (auto& unit : g)
+	{
+		usedArray[unit.first] = false;
+		for (auto& p : unit.second)
+		{
+			usedArray[p.id_CS] = false;
+		}
+	}
+	return usedArray;
+}
+
+void topologicalsort(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, bool>& count, vector<int>& answer) // топологическая сортировка ( что раньше идет, что позже)
+{
+	count = usedCS(g);
+	answer.clear();
+	for (auto& unit : count)
+		if (!unit.second)
+			depth_first_search(unit.first, g, count, answer);
+	reverse(answer.begin(), answer.end());
+}
+
+void fillinggraph(unordered_map<int, vector<pairofCS>>& graph, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup, int indexpipe, int indexks1, int indexks2)
+{
+	pairofCS g;
+	g.id_pipe = indexpipe;
+	g.id_CS = indexks2;
+	graph[indexks1].push_back(g);
+}
+
+void displayofnetwork(unordered_map<int, vector<pairofCS>>& graph, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup)
+{
+	for (auto& unit : graph)
+	{
+		cout << "КС с ID " << unit.first << " соединен с КС'ми ID: ";
+		for (auto cs = unit.second.begin(); cs != unit.second.end(); cs++)
+		{
+			cout << cs->id_CS << " трубой длиной " << pipegroup[cs->id_pipe].length;
+			if (cs + 1 != unit.second.end()) cout << ", ";
+		}
+		cout << endl;
+	}
+}
+
+void downloadtofile(unordered_map<int, vector<pairofCS>> g)
+{
+	ofstream fout;
+	fout.open(nameoffile(), ios::out);
+	if (!fout.is_open())
+		cout << "Файл не может быть открыт!" << endl;
+	else
+	{
+		for (auto& unit : g)
+		{
+			fout << unit.second.size() << " ";
+			fout << unit.first << " ";
+			for (auto cs = unit.second.begin(); cs != unit.second.end(); cs++)
+			{
+				fout << cs->id_CS << " " << cs->id_pipe << " ";
+			}
+			fout << endl;
+		}
+		cout << "Данные были выведены в file!" << endl;
+		fout.close();
+	}
+}
+
+
+
+void unloadfromfile(unordered_map<int, vector<pairofCS>>& g)
+{
+	ifstream fin(nameoffile(), ios::out);
+	if (!fin.is_open())
+		cout << "Файл не может быть открыт!" << endl;
+	else
+	{
+		int buff;
+		while (fin >> buff)
+		{
+			int CSid1;
+			fin >> CSid1;
+			for (int i = 0; i < buff; i++)
+			{
+				int CSid2;
+				fin >> CSid2;
+				int pipeid;
+				fin >> pipeid;
+				pairofCS pair1;
+				pair1.id_CS = CSid2;
+				pair1.id_pipe = pipeid;
+				g[CSid1].push_back(pair1);
+			}
+		}
+		cout << "Данные были введены в file!" << endl;
+		fin.close();
+	}
+}
+
+bool verificationofdelete(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup, int& idCS)
+{
+
+	bool exist = false;
+	vector<int> todelete;
+	if (g.find(idCS) != g.end())
+	{
+		g.erase(idCS);
+		exist = true;
+	}
+	for (auto element = g.begin(); element != g.end(); element++)
+	{
+		for (auto i = 0; i < element->second.size(); i++)
+		{
+			if (element->second[i].id_CS == idCS) {
+				element->second.erase(element->second.begin() + i);
+				exist = true;
+				todelete.push_back(element->first);
+			}
+		}
+	}
+	for (auto& i : todelete)
+	{
+		if (g[i].size() == 0) g.erase(i);
+	}
+	return exist;
+}
+
+
+void removeofconnection(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, CS> CSgroup, unordered_map<int, Pipe>& pipegroup)
+{
+	cout << "Введите ID КС: ";
+	int idCS = verification(0, 200, "Введите ID КС: ");
+
+	while (CSgroup.find(idCS) == CSgroup.end())
+	{
+		cout << "Введите еще раз, такой КС нет в сети" << endl;
+		cout << "Введите ID КС: ";
+		idCS = verification(0, 200, "Введите ID КС: ");
+	}
+	if (verificationofdelete(g, CSgroup, pipegroup, idCS))
+	{
+		cout << "Удален!" << endl;;
+	}
+	else
+	{
+		cout << "Не сток";
+	}
+
+
+}
+
 
 
 int main()
 {
 	unordered_map<int, Pipe> pipegroup;
 	unordered_map<int, CS> CSgroup;
+	unordered_map<int, vector<pairofCS>> k;
 	setlocale(LC_ALL, "ru");
 
 	//bool cs_accept = false;
@@ -353,7 +357,7 @@ int main()
 	{
 
 		menu();
-		switch (verification(0, 15,"Введите команду MENU:"))
+		switch (verification(0, 19,"Введите команду MENU:"))
 
 		{
 		case 1:
@@ -601,6 +605,99 @@ int main()
 					cout << pipegroup[i];
 			}
 			else cout << "Забыли добавить трубы!" << endl;
+			system("pause");
+			break;
+		}
+
+		case 16:
+		{
+			unordered_map<int, bool> usedpipes;
+
+			for (auto& unit : pipegroup)
+			{
+				usedpipes.insert(make_pair(unit.first, false));
+			}
+
+			k.clear();
+			int time, indexpipe, indexks1, indexks2;
+			cout << "Сколько раз введете КС и трубу?";
+			time = verification(0, 200, "Сколько раз введете КС и трубу?");
+			while (time--)
+			{
+				cout << "Введите индекс трубы ";
+				indexpipe = verification(0, 200, "Введите индекс трубы ");
+				while (usedpipes[indexpipe]) {
+					cout << "Уже использовали" << endl;
+					cout << "Введите индекс трубы ";
+					indexpipe = verification(0, 200, "Введите индекс трубы ");
+				}
+				usedpipes[indexpipe] = true;
+				cout << "Введите индекс КС1, от которой ";
+				indexks1 = verification(0, 200, "Введите индекс КС1, от которой ");
+				cout << "Введите индекс КС2, к которой ";
+				indexks2 = verification(0, 200, "Введите индекс КС2, к которой ");
+				fillinggraph(k, CSgroup, pipegroup, indexpipe, indexks1, indexks2);
+			}
+			displayofnetwork(k, CSgroup, pipegroup);
+			system("pause");
+			break;
+		}
+
+		case 17:
+		{
+			if (!searchforcycle(k))
+			{
+				unordered_map<int, bool> count;
+				vector<int> answer;
+				topologicalsort(k, count, answer);
+				for (auto i = answer.begin(); i != answer.end(); i++)
+				{
+					cout << *i;
+					if (i + 1 != answer.end()) cout << " , ";
+				}
+				cout << endl;
+				system("pause");
+			}
+			else
+			{
+				cout << "Граф цикличный";
+			}
+			system("pause");
+			break;
+		}
+
+		case 18:
+		{
+			downloadtofile(k);
+			system("pause");
+			break;
+		}
+
+		case 19:
+		{
+			unloadfromfile(k);
+			system("pause");
+			break;
+		}
+
+		case 20:
+		{
+			removeofconnection(k, CSgroup, pipegroup);
+			system("pause");
+			break;
+		}
+
+		case 21:
+		{
+			k.clear();
+			cout << "Граф удалён!" << endl;
+			system("pause");
+			break;
+		}
+
+		case 22:
+		{
+			displayofnetwork(k, CSgroup, pipegroup);
 			system("pause");
 			break;
 		}
