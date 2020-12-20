@@ -29,7 +29,7 @@ void menu()
 	cout << "13.Поиск CS по названию:" << endl;
 	cout << "14.Поиск CS по проценту незадействованных цехов:" << endl;
 	cout << "15.Поиск трубы по признаку «в ремонте» " << endl;
-	cout << "16.Создать газотранспортную сеть " << endl;
+	cout << "16.Создать газотранспортную сеть" << endl;
 	cout << "17.Сортировка сети" << endl;
 	cout << "18.Вывод в файл" << endl;
 	cout << "19.Загрузка из файла"  << endl;
@@ -191,7 +191,7 @@ bool searchforcycle(unordered_map<int, vector<pairofCS>>& g)
 
 unordered_map<int, bool> usedCS(unordered_map<int, vector<pairofCS>>& g)
 {
-	unordered_map<int, bool> usedArray;
+	unordered_map<int, bool>usedArray;
 	for (auto& unit : g)
 	{
 		usedArray[unit.first] = false;
@@ -203,7 +203,7 @@ unordered_map<int, bool> usedCS(unordered_map<int, vector<pairofCS>>& g)
 	return usedArray;
 }
 
-void topologicalsort(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, bool>& count, vector<int>& answer) // топологическая сортировка ( что раньше идет, что позже)
+void topologicalsort(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, bool>& count, vector<int>& answer) // топологическая сортировка 
 {
 	count = usedCS(g);
 	answer.clear();
@@ -222,6 +222,7 @@ void fillinggraph(unordered_map<int, vector<pairofCS>>& graph, unordered_map<int
 }
 
 void displayofnetwork(unordered_map<int, vector<pairofCS>>& graph, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup)
+
 {
 	for (auto& unit : graph)
 	{
@@ -235,7 +236,9 @@ void displayofnetwork(unordered_map<int, vector<pairofCS>>& graph, unordered_map
 	}
 }
 
+
 void downloadtofile(unordered_map<int, vector<pairofCS>> g)
+
 {
 	ofstream fout;
 	fout.open(nameoffile(), ios::out);
@@ -257,8 +260,6 @@ void downloadtofile(unordered_map<int, vector<pairofCS>> g)
 		fout.close();
 	}
 }
-
-
 
 void unloadfromfile(unordered_map<int, vector<pairofCS>>& g)
 {
@@ -289,36 +290,36 @@ void unloadfromfile(unordered_map<int, vector<pairofCS>>& g)
 	}
 }
 
-bool verificationofdelete(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup, int& idCS)
+bool verificationofdelete(unordered_map<int, vector<pairofCS>>& k, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup, int& idCS)
 {
 
 	bool exist = false;
 	vector<int> todelete;
-	if (g.find(idCS) != g.end())
+	if (k.find(idCS) != k.end())
 	{
-		g.erase(idCS);
+		k.erase(idCS);
 		exist = true;
 	}
-	for (auto element = g.begin(); element != g.end(); element++)
+	for (auto unit = k.begin(); unit != k.end(); unit++)
 	{
-		for (auto i = 0; i < element->second.size(); i++)
+		for (auto i = 0; i < unit->second.size(); i++)
 		{
-			if (element->second[i].id_CS == idCS) {
-				element->second.erase(element->second.begin() + i);
+			if (unit->second[i].id_CS == idCS) {
+				unit->second.erase(unit->second.begin() + i);
 				exist = true;
-				todelete.push_back(element->first);
+				todelete.push_back(unit->first);
 			}
 		}
 	}
 	for (auto& i : todelete)
 	{
-		if (g[i].size() == 0) g.erase(i);
+		if (k[i].size() == 0) k.erase(i);
 	}
 	return exist;
 }
 
 
-void removeofconnection(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, CS> CSgroup, unordered_map<int, Pipe>& pipegroup)
+void removeofconnection(unordered_map<int, vector<pairofCS>>& k, unordered_map<int, CS> CSgroup, unordered_map<int, Pipe>& pipegroup)
 {
 	cout << "Введите ID КС: ";
 	int idCS = verification(0, 200, "Введите ID КС: ");
@@ -329,13 +330,13 @@ void removeofconnection(unordered_map<int, vector<pairofCS>>& g, unordered_map<i
 		cout << "Введите ID КС: ";
 		idCS = verification(0, 200, "Введите ID КС: ");
 	}
-	if (verificationofdelete(g, CSgroup, pipegroup, idCS))
+	if (verificationofdelete(k, CSgroup, pipegroup, idCS))
 	{
 		cout << "Удален!" << endl;;
 	}
 	else
 	{
-		cout << "Не сток";
+		cout << "Не сток!";
 	}
 
 
@@ -357,7 +358,7 @@ int main()
 	{
 
 		menu();
-		switch (verification(0, 19,"Введите команду MENU:"))
+		switch (verification(0, 22,"Введите команду MENU:"))
 
 		{
 		case 1:
@@ -390,6 +391,7 @@ int main()
 
 		case 4:
 		{
+
 			if (CSgroup.size() > 0)
 				for (auto iter = CSgroup.begin(); iter != CSgroup.end(); ++iter)
 				{
@@ -489,27 +491,29 @@ int main()
 
 		case 9:
 		{
-			if (CSgroup.size() > 0)
-			{
-				ofstream fout;
+			    ofstream fout;
 				fout.open(nameoffile(), ios::out);
 				if (fout.is_open())
 				{
-					fout << CSgroup.size() << endl;
-					for (auto iter = CSgroup.begin(); iter != CSgroup.end(); ++iter)
-					fout << iter->second;
-					fout.close();
+					if (CSgroup.size() > 0)
+					{
+						fout << CSgroup.size() << endl;
+						for (auto iter = CSgroup.begin(); iter != CSgroup.end(); ++iter)
+						fout << iter->second;
+					}
+					else
+					{
+						cout << "Вы забыли ввести данные для КС!" << endl;
+						fout.close();
+					}
+					
 				}	
 				else
 				{
 					cout << "Файл не может быть открыт!\n";
 				}
-			}
-			else
-			{
-				cout << "Вы забыли ввести данные для CS!\n" << endl;
-				
-			}
+			
+			
 			system("Pause");
 			break;
 
@@ -653,14 +657,14 @@ int main()
 				for (auto i = answer.begin(); i != answer.end(); i++)
 				{
 					cout << *i;
-					if (i + 1 != answer.end()) cout << " , ";
+					if (i + 1 != answer.end()) cout << " ---->> ";
 				}
 				cout << endl;
 				system("pause");
 			}
 			else
 			{
-				cout << "Граф цикличный";
+				cout << "Граф оказался цикличным! ";
 			}
 			system("pause");
 			break;

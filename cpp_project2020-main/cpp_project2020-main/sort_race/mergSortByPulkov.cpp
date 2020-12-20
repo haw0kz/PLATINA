@@ -40,7 +40,7 @@ void mergesort(T* a, T* b, size_t start, size_t end)
 
 }
 
-vector<int>mrgsrtPULKOV(vector<int>a)
+vector<int>mergeSort_by_Pulkov(vector<int>a)
 {
     vector<int>b(a.size(), 0);
     mergesort(&a[0], &b[0], 0, a.size());
@@ -49,7 +49,7 @@ vector<int>mrgsrtPULKOV(vector<int>a)
 }
 
 
-vector<double>mrgsrtPULKOV(vector<double>a)
+vector<double>mergeSort_by_Pulkov(vector<double>a)
 {
     vector<double>b(a.size(), 0);
     mergesort(&a[0], &b[0], 0, a.size());
