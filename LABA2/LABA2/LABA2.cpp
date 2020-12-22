@@ -33,6 +33,7 @@ void menu()
 	cout << "16.Удалить вершину из графа (СТОК)" << endl;
 	cout << "17.Удалить газотранспортную сеть" << endl;
 	cout << "18.Посмотреть газотранспортную сеть" << endl;
+	cout << "19.Поиск кратчайшего пути" << endl;
 
 	cout << "0.Выход" << endl;
 }
@@ -102,6 +103,78 @@ void deleteCS(unordered_map<int, CS>& k)
 
 }
 
+unordered_map<int, bool> visited_CS(unordered_map<int, vector<pairofCS>>& g)
+{
+	unordered_map<int, bool> countArr;
+	for (auto& el : g)
+	{
+		countArr[el.first] = false;
+		for (auto& p1 : el.second)
+		{
+			countArr[p1.id_CS] = false;
+		}
+	}
+	return countArr;
+}
+
+
+int Shortlength(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, Pipe>& pipegroup, const int& id_CS1, const int& id_CS2)
+{
+
+	unordered_map<int, bool> u = visited_CS(g);
+	int n = u.size();
+	int s = id_CS1; // стартовая вершина
+
+	unordered_map<int, int> d;
+	for (auto& el : g)
+	{
+		d[el.first] = 1e5;
+		for (auto& el2 : el.second)
+		{
+			d[el2.id_CS] = 1e5;
+		}
+	}
+	unordered_map<int, int> p;
+	for (auto& el : g)
+	{
+		for (auto& el2 : el.second)
+		{
+			p[el2.id_CS] = 0;
+		}
+	}
+	d[s] = 0;
+
+
+	for (auto i1 = u.begin(); i1 != u.end(); i1++) {
+
+		int v = -1;
+
+		for (auto j1 = u.begin(); j1 != u.end(); j1++) {
+			int j = j1->first;
+			if (!u[j] && (v == -1 || d[j] < d[v]))
+				v = j;
+		}
+		if (d[v] == 1e5)
+			break;
+		u[v] = true;
+
+		for (auto j = g[v].begin(); j != g[v].end(); ++j) {
+			int to = j->id_CS,
+				len = pipegroup[j->id_pipe].length;
+			if (d[v] + len < d[to]) {
+				d[to] = d[v] + len;
+				p[to] = v;
+			}
+		}
+	}
+
+
+
+	return d[id_CS2];
+}
+
+
+
 
 int main()
 {
@@ -117,7 +190,7 @@ int main()
 	{
 
 		menu();
-		switch (verification(0, 18,"Введите команду MENU:"))
+		switch (verification(0, 19,"Введите команду MENU:"))
 
 		{
 		case 1:
@@ -451,6 +524,47 @@ int main()
 		case 18:
 		{
 			displayofnetwork(g, CSgroup, pipegroup);
+			system("pause");
+			break;
+		}
+
+		case 19:
+		{
+			unordered_map <int, bool> usedCS;
+			
+			for (auto& unit : g)
+			{
+				usedCS[unit.first] = true;
+				for (auto& p1 : unit.second)
+				{
+					usedCS[p1.id_CS] = true;
+				}
+			}
+			cout << "Введите ID 1 КС: ";
+			int idCS1 = verification(1,1000,"Введите ID 1 КС: ");
+			while (g.find(idCS1) == g.end())
+			{
+				cout << "Некорректный ввод или из этой вершины не выходят ребра\n";
+				cout << "Введите ID 1 КС: ";
+				idCS1 = verification(1,1000,"Введите ID 1 КС: ");
+			}
+			cout << "Введите ID 2 КС: ";
+			int idCS2 = verification(1,1000,"Введите ID 2 КС: ");
+			while (usedCS.find(idCS2) == usedCS.end())
+			{
+				cout << "Некорректный ввод\n";
+				cout << "Введите ID 2 КС: ";
+				idCS2 = verification(1,1000,"Введите ID 2 КС: ");
+			}
+			float path = Shortlength(g, pipegroup, idCS1, idCS2);
+			if (path >= 1e5)
+			{
+				cout << "Нет пути!";
+			}
+			else
+			{
+				cout << "Длина пути равна:" << path;
+			}
 			system("pause");
 			break;
 		}
