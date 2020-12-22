@@ -33,10 +33,6 @@ void topologicalsort(unordered_map<int, vector<pairofCS>>& g, unordered_map<int,
 
 bool searchforcycle(unordered_map<int, vector<pairofCS>>& g);
 
-void downloadtofile(unordered_map<int, vector<pairofCS>> g);
-
-void unloadfromfile(unordered_map<int, vector<pairofCS>>& g);
-
 void removeofconnection(unordered_map<int, vector<pairofCS>>& k, unordered_map<int, CS> CSgroup, unordered_map<int, Pipe>& pipegroup);
 
 bool verificationofdelete(unordered_map<int, vector<pairofCS>>& k, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup, int& idCS);

@@ -132,70 +132,18 @@ void displayofnetwork(unordered_map<int, vector<pairofCS>>& graph, unordered_map
 }
 
 
-void downloadtofile(unordered_map<int, vector<pairofCS>> g)
 
-{
-	ofstream fout;
-	fout.open(nameoffile(), ios::out);
-	if (!fout.is_open())
-		cout << "Файл не может быть открыт!" << endl;
-	else
-	{
-		for (auto& unit : g)
-		{
-			fout << unit.second.size() << " ";
-			fout << unit.first << " ";
-			for (auto cs = unit.second.begin(); cs != unit.second.end(); cs++)
-			{
-				fout << cs->id_CS << " " << cs->id_pipe << " ";
-			}
-			fout << endl;
-		}
-		cout << "Данные были выведены в file!" << endl;
-		fout.close();
-	}
-}
-
-void unloadfromfile(unordered_map<int, vector<pairofCS>>& g)
-{
-	ifstream fin(nameoffile(), ios::out);
-	if (!fin.is_open())
-		cout << "Файл не может быть открыт!" << endl;
-	else
-	{
-		int buff;
-		while (fin >> buff)
-		{
-			int CSid1;
-			fin >> CSid1;
-			for (int i = 0; i < buff; i++)
-			{
-				int CSid2;
-				fin >> CSid2;
-				int pipeid;
-				fin >> pipeid;
-				pairofCS pair1;
-				pair1.id_CS = CSid2;
-				pair1.id_pipe = pipeid;
-				g[CSid1].push_back(pair1);
-			}
-		}
-		cout << "Данные были введены в file!" << endl;
-		fin.close();
-	}
-}
-
-bool verificationofdelete(unordered_map<int, vector<pairofCS>>& k, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup, int& idCS)
+bool verificationofdelete(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup, int& idCS)
 {
 
 	bool exist = false;
 	vector<int> todelete;
-	if (k.find(idCS) != k.end())
+	if (g.find(idCS) != g.end())
 	{
-		k.erase(idCS);
+		g.erase(idCS);
 		exist = true;
 	}
-	for (auto unit = k.begin(); unit != k.end(); unit++)
+	for (auto unit = g.begin(); unit != g.end(); unit++)
 	{
 		for (auto i = 0; i < unit->second.size(); i++)
 		{
@@ -208,7 +156,7 @@ bool verificationofdelete(unordered_map<int, vector<pairofCS>>& k, unordered_map
 	}
 	for (auto& i : todelete)
 	{
-		if (k[i].size() == 0) k.erase(i);
+		if (g[i].size() == 0) g.erase(i);
 	}
 	return exist;
 }

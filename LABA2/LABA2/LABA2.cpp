@@ -21,22 +21,18 @@ void menu()
 	cout << "4.Просмотр всех CS:" << endl;
 	cout << "5.Редактировать трубу " << endl;
 	cout << "6.Редактировать CS" << endl;
-	cout << "7.Сохранить ТРУБЫ" << endl;
-	cout << "8.Загрузить ТРУБЫ" << endl;
-	cout << "9.Сохранить CS" << endl;
-	cout << "10.Загрузить CS" << endl;
-	cout << "11.Удалить трубу" << endl;
-	cout << "12.Удалить CS" << endl;
-	cout << "13.Поиск CS по названию:" << endl;
-	cout << "14.Поиск CS по проценту незадействованных цехов:" << endl;
-	cout << "15.Поиск трубы по признаку «в ремонте» " << endl;
-	cout << "16.Создать газотранспортную сеть" << endl;
-	cout << "17.Сортировка сети" << endl;
-	cout << "18.Вывод в файл" << endl;
-	cout << "19.Загрузка из файла"  << endl;
-	cout << "20.Удалить вершину из графа (СТОК)" << endl;
-	cout << "21.Удалить газотранспортную сеть" << endl;
-	cout << "22.Посмотреть газотранспортную сеть" << endl;
+	cout << "7.Удалить трубу" << endl;
+	cout << "8.Удалить CS" << endl;
+	cout << "9.Поиск CS по названию:" << endl;
+	cout << "10.Поиск CS по проценту незадействованных цехов:" << endl;
+	cout << "11.Поиск трубы по признаку «в ремонте» " << endl;
+	cout << "12.Создать газотранспортную сеть" << endl;
+	cout << "13.Сортировка сети" << endl;
+	cout << "14.Вывод в файл" << endl;
+	cout << "15.Загрузка из файла"  << endl;
+	cout << "16.Удалить вершину из графа (СТОК)" << endl;
+	cout << "17.Удалить газотранспортную сеть" << endl;
+	cout << "18.Посмотреть газотранспортную сеть" << endl;
 
 	cout << "0.Выход" << endl;
 }
@@ -111,7 +107,7 @@ int main()
 {
 	unordered_map<int, Pipe> pipegroup;
 	unordered_map<int, CS> CSgroup;
-	unordered_map<int, vector<pairofCS>> k;
+	unordered_map<int, vector<pairofCS>> g;
 	setlocale(LC_ALL, "ru");
 
 	//bool cs_accept = false;
@@ -121,7 +117,7 @@ int main()
 	{
 
 		menu();
-		switch (verification(0, 22,"Введите команду MENU:"))
+		switch (verification(0, 18,"Введите команду MENU:"))
 
 		{
 		case 1:
@@ -198,113 +194,10 @@ int main()
 			cout << "Вы забыли ввести данные КС!\n";
 			system("Pause");
 			break;
-		}
-		
+		}		
+
+
 		case 7:
-		{
-			if (pipegroup.size() > 0)
-			{
-				ofstream fout;
-				fout.open(nameoffile(), ios::out);
-				if (!fout.is_open())
-					cout << "Файл не может быть открыт!\n";
-				else
-				{
-					fout << pipegroup.size();
-					for (auto iter = pipegroup.begin(); iter != pipegroup.end(); ++iter)
-						fout << iter->second;
-					fout.close();
-					break;
-				}
-			
-			}
-			else
-			{
-			    cout << "Вы забыли ввести данные для труб!\n" << endl;
-				system("Pause");
-				break;
-			}
-		}
-		case 8:
-		{
-			{
-				ifstream fin;
-				fin.open(nameoffile(), ios::in);
-				if (!fin.is_open())
-					cout << "Файл не может быть открыт!\n";
-
-				else
-				{
-					pipegroup.erase(pipegroup.begin(), pipegroup.end());
-					int count;
-					fin >> count;
-					for (int i = 1; i <= count; ++i)
-					{
-						Pipe pipe;
-						fin >> pipe;
-						pipegroup.insert(pair<int, Pipe>(pipe.GET_ID(), pipe));
-					}
-					fin.close();
-					break;
-					
-				}
-			}
-		
-		}
-
-		case 9:
-		{
-			    ofstream fout;
-				fout.open(nameoffile(), ios::out);
-				if (fout.is_open())
-				{
-					if (CSgroup.size() > 0)
-					{
-						fout << CSgroup.size();
-						for (auto iter = CSgroup.begin(); iter != CSgroup.end(); ++iter)
-						fout << iter->second;
-					}
-					else
-					{
-						cout << "Вы забыли ввести данные для КС!" << endl;
-						fout.close();
-					}
-					
-				}	
-				else
-				{
-					cout << "Файл не может быть открыт!\n";
-				}
-			
-			
-			system("Pause");
-			break;
-
-		}
-		case 10:
-		{
-			ifstream fin;
-			fin.open(nameoffile(), ios::in);
-			if (fin.is_open())
-			{
-				CSgroup.erase(CSgroup.begin(), CSgroup.end());
-				int count;
-				fin >> count;
-				for (int i = 1; i <= count; ++i)
-				{
-					CS cs;
-					fin >> cs;
-					CSgroup.insert(pair<int, CS>(cs.GET_ID(), cs));
-				}
-
-				fin.close();
-			}
-			else 
-			cout << "Файл не может быть открыт!" << endl;
-			break;
-		}
-
-		case 11:
 		{
 			if (pipegroup.size() > 0)
 			{
@@ -320,7 +213,7 @@ int main()
 			break;
 		}
 
-		case 12:
+		case 8:
 		{
 			if (CSgroup.size() > 0)
 			{
@@ -336,7 +229,7 @@ int main()
 			break;
 		}
 
-		case 13:
+		case 9:
 		{
 			string name;
 			cout << "Введите название CS для поиска: ";
@@ -352,7 +245,7 @@ int main()
 			break;
 		}
 
-		case 14:
+		case 10:
 		{
 			float percent;
 			cout << "Введите процент незадействованных CS для поиска:";
@@ -368,7 +261,7 @@ int main()
 			break;
 		}
 
-		case 15:
+		case 11:
 		{
 			bool number;
 			cout << "В ремонте труба? 1-да или 0-нет: ";
@@ -383,7 +276,7 @@ int main()
 			break;
 		}
 
-		case 16:
+		case 12:
 		{
 			unordered_map<int, bool> usedpipes;
 
@@ -392,7 +285,7 @@ int main()
 				usedpipes.insert(make_pair(unit.first, false));
 			}
 
-			k.clear();
+			g.clear();
 			int time, indexpipe, indexks1, indexks2;
 			cout << "Сколько раз введете КС и трубу?";
 			time = verification(0, 200, "Сколько раз введете КС и трубу?");
@@ -410,24 +303,24 @@ int main()
 				indexks1 = verification(0, 200, "Введите индекс КС1, от которой ");
 				cout << "Введите индекс КС2, к которой ";
 				indexks2 = verification(0, 200, "Введите индекс КС2, к которой ");
-				fillinggraph(k, CSgroup, pipegroup, indexpipe, indexks1, indexks2);
+				fillinggraph(g, CSgroup, pipegroup, indexpipe, indexks1, indexks2);
 			}
-			displayofnetwork(k, CSgroup, pipegroup);
+			displayofnetwork(g, CSgroup, pipegroup);
 			system("pause");
 			break;
 		}
 
-		case 17:
+		case 13:
 		{
-			if (!searchforcycle(k))
+			if (!searchforcycle(g))
 			{
 				unordered_map<int, bool> count;
 				vector<int> answer;
-				topologicalsort(k, count, answer);
+				topologicalsort(g, count, answer);
 				for (auto i = answer.begin(); i != answer.end(); i++)
 				{
 					cout << *i;
-					if (i + 1 != answer.end()) cout << " ---->> ";
+					if (i + 1 != answer.end()) cout << " ------>> ";
 				}
 				cout << endl;
 				system("pause");
@@ -440,38 +333,124 @@ int main()
 			break;
 		}
 
-		case 18:
+		case 14:
 		{
-			downloadtofile(k);
+			ofstream fout;
+			fout.open(nameoffile(), ios::out);
+			if (fout.is_open())
+			{
+				if (pipegroup.size() > 0)
+				{
+					fout << pipegroup.size();
+					for (auto iter = pipegroup.begin(); iter != pipegroup.end(); ++iter)
+						fout << iter->second << endl;
+
+				}
+				else cout << "Вы забыли ввести данные для КС!\n" << endl;
+
+				if (CSgroup.size() > 0)
+				{
+					fout << CSgroup.size();
+					for (auto iter = CSgroup.begin(); iter != CSgroup.end(); ++iter)
+						fout << iter->second << endl;
+					
+				}
+				else cout << "Вы забыли ввести данные для ТРУБЫ!\n" << endl;
+				fout << endl;
+
+				for (auto& unit : g)
+				{
+					fout << unit.second.size() << " ";
+					fout << unit.first << " ";
+					for (auto cs = unit.second.begin(); cs != unit.second.end(); cs++)
+					{
+						fout << cs->id_CS << " " << cs->id_pipe << " ";
+					}
+					fout << endl;
+				}
+
+			}
+			else
+			{
+				cout << "Файл не может быть открыт!\n";
+			}
+
+
+			system("Pause");
+			break;
+		}
+
+		case 15:
+		{
+			ifstream fin;
+			fin.open(nameoffile(), ios::in);
+			if (fin.is_open())
+			{
+				pipegroup.erase(pipegroup.begin(), pipegroup.end());
+				int countofpipe;
+				fin >> countofpipe;
+				for (int i = 1; i <= countofpipe; ++i)
+				{
+					Pipe pipe;
+					fin >> pipe;
+					pipegroup.insert(pair<int, Pipe>(pipe.GET_ID(), pipe));
+				}
+
+				CSgroup.erase(CSgroup.begin(), CSgroup.end());
+				int countofcs;
+				fin >> countofcs;
+				for (int i = 1; i <= countofcs; ++i)
+				{
+					CS cs;
+					fin >> cs;
+					CSgroup.insert(pair<int, CS>(cs.GET_ID(), cs));
+				}
+
+				int buff;
+				while (fin >> buff)
+				{
+					int CSid1;
+					fin >> CSid1;
+					for (int i = 0; i < buff; i++)
+					{
+						int CSid2;
+						fin >> CSid2;
+						int pipeid;
+						fin >> pipeid;
+						pairofCS pair1;
+						pair1.id_CS = CSid2;
+						pair1.id_pipe = pipeid;
+						g[CSid1].push_back(pair1);
+					}
+				}
+				fin.close();
+
+				
+
+			}
+			else
+			cout << "Файл не может быть открыт!\n";
+			break;			
+		}
+
+		case 16:
+		{
+			removeofconnection(g, CSgroup, pipegroup);
 			system("pause");
 			break;
 		}
 
-		case 19:
+		case 17:
 		{
-			unloadfromfile(k);
-			system("pause");
-			break;
-		}
-
-		case 20:
-		{
-			removeofconnection(k, CSgroup, pipegroup);
-			system("pause");
-			break;
-		}
-
-		case 21:
-		{
-			k.clear();
+			g.clear();
 			cout << "Граф удалён!" << endl;
 			system("pause");
 			break;
 		}
 
-		case 22:
+		case 18:
 		{
-			displayofnetwork(k, CSgroup, pipegroup);
+			displayofnetwork(g, CSgroup, pipegroup);
 			system("pause");
 			break;
 		}
