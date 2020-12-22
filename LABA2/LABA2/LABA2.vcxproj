@@ -148,11 +148,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CS.cpp" />
+    <ClCompile Include="functions.cpp" />
     <ClCompile Include="LABA2.cpp" />
     <ClCompile Include="Pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CS.h" />
+    <ClInclude Include="functions.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>

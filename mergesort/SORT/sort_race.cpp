@@ -17,6 +17,7 @@ void Run(string method_name, Participant p, vector<int> data);
 }
 
 vector<int> mrgsrtPULKOV(vector<int>a);
+vector<int> mrgsrtPULKOV(vector<double>a);
 vector<int> std_sort(vector<int>);
 
 
@@ -27,6 +28,6 @@ int main()
     {
         auto data = GenerateData(n);
         RUN(std_sort);
-		RUN(mrgsrtPULKOV)
+        RUN(mrgsrtPULKOV);
     }
 }
