@@ -17,6 +17,88 @@ string nameoffile()
 	return name;
 }
 
+int Shortlength(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, Pipe>& pipegroup, const int& id_CS1, const int& id_CS2)
+{
+	unordered_map<int, bool> u = usedCS(g);
+	int n = u.size();
+	int s = id_CS1; 
+
+	unordered_map<int, int> d;
+	for (auto& el : g)
+	{
+		d[el.first] = 1e5;
+		for (auto& el2 : el.second)
+		{
+			d[el2.id_CS] = 1e5;
+		}
+	}
+	unordered_map<int, int> p;
+	for (auto& el : g)
+	{
+		p[el.first] = 0;
+		for (auto& el2 : el.second)
+		{
+			p[el2.id_CS] = 0;
+		}
+	}
+	d[s] = 0;
+
+
+	for (auto i1 = u.begin(); i1 != u.end(); i1++) {
+
+		int v = -1;
+
+		for (auto j1 = u.begin(); j1 != u.end(); j1++) {
+			int j = j1->first;
+			if (!u[j] && (v == -1 || d[j] < d[v]))
+				v = j;
+		}
+		if (d[v] == 1e5)
+			break;
+		u[v] = true;
+
+		for (auto j = g[v].begin(); j != g[v].end(); ++j) {
+			
+			int to = j->id_CS,
+				len = pipegroup[j->id_pipe].length;
+			if (d[v] + len < d[to]) {
+				d[to] = d[v] + len;
+				p[to] = v;
+			}
+		}
+	}
+
+	return d[id_CS2];
+}
+
+
+void deletePipe(unordered_map<int, Pipe>& p)
+{
+	unsigned int index;
+	do
+	{
+		cout << "Введите индекс трубы: ";
+		index = verification(1u, Pipe::GET_MaxID(), "Введите индекс трубы: ");
+	} while (p.find(index) == p.end());
+
+	p.erase(p.find(index));
+	system("pause");
+
+
+}
+
+void deleteCS(unordered_map<int, CS>& k)
+{
+	unsigned int index;
+	do {
+		cout << "Введите индекс КС: ";
+		index = verification(1u, CS::GET_MaxID(), "Введите индекс КС: ");
+		k.erase(k.find(index));
+	} while (k.find(index) == k.end());
+	k.erase(k.find(index));
+
+}
+
 void depth_first_search(int v, unordered_map<int, vector<pairofCS>>& g, unordered_map<int, bool>& count, vector<int>& answer) // добавляет ребро 
 {
 	count[v] = true;

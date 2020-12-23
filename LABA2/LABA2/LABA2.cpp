@@ -34,6 +34,7 @@ void menu()
 	cout << "17.Удалить газотранспортную сеть" << endl;
 	cout << "18.Посмотреть газотранспортную сеть" << endl;
 	cout << "19.Поиск кратчайшего пути" << endl;
+	cout << "20.Поиск максимального потока" << endl;
 
 	cout << "0.Выход" << endl;
 }
@@ -58,6 +59,8 @@ bool verificationCS(CS& cs, float percent)
 }
 
 
+
+
 template<typename PC, typename T>
 vector<int> findpipeORcs(unordered_map<int, PC>& pc, Filter<PC, T> f, T param)
 {
@@ -75,116 +78,12 @@ vector<int> findpipeORcs(unordered_map<int, PC>& pc, Filter<PC, T> f, T param)
 
 
 
-void deletePipe(unordered_map<int, Pipe>& p)
-{
-	unsigned int index;
-	do
-	{
-		cout << "Введите индекс трубы: ";
-		index = verification(1u, Pipe::GET_MaxID(), "Введите индекс трубы: ");
-	} while (p.find(index) == p.end());
-	
-	p.erase(p.find(index));
-//	cout << typeid(p.find(index)).name();
-	system("pause");
-
-
-}
-
-void deleteCS(unordered_map<int, CS>& k)
-{
-	unsigned int index;
-	do {
-		cout << "Введите индекс КС: ";
-		index = verification(1u, CS::GET_MaxID(), "Введите индекс КС: ");
-		k.erase(k.find(index));
-	} while (k.find(index) == k.end());
-	k.erase(k.find(index));
-
-}
-
-unordered_map<int, bool> visited_CS(unordered_map<int, vector<pairofCS>>& g)
-{
-	unordered_map<int, bool> countArr;
-	for (auto& el : g)
-	{
-		countArr[el.first] = false;
-		for (auto& p1 : el.second)
-		{
-			countArr[p1.id_CS] = false;
-		}
-	}
-	return countArr;
-}
-
-
-int Shortlength(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, Pipe>& pipegroup, const int& id_CS1, const int& id_CS2)
-{
-
-	unordered_map<int, bool> u = visited_CS(g);
-	int n = u.size();
-	int s = id_CS1; // стартовая вершина
-
-	unordered_map<int, int> d;
-	for (auto& el : g)
-	{
-		d[el.first] = 1e5;
-		for (auto& el2 : el.second)
-		{
-			d[el2.id_CS] = 1e5;
-		}
-	}
-	unordered_map<int, int> p;
-	for (auto& el : g)
-	{
-		for (auto& el2 : el.second)
-		{
-			p[el2.id_CS] = 0;
-		}
-	}
-	d[s] = 0;
-
-
-	for (auto i1 = u.begin(); i1 != u.end(); i1++) {
-
-		int v = -1;
-
-		for (auto j1 = u.begin(); j1 != u.end(); j1++) {
-			int j = j1->first;
-			if (!u[j] && (v == -1 || d[j] < d[v]))
-				v = j;
-		}
-		if (d[v] == 1e5)
-			break;
-		u[v] = true;
-
-		for (auto j = g[v].begin(); j != g[v].end(); ++j) {
-			int to = j->id_CS,
-				len = pipegroup[j->id_pipe].length;
-			if (d[v] + len < d[to]) {
-				d[to] = d[v] + len;
-				p[to] = v;
-			}
-		}
-	}
-
-
-
-	return d[id_CS2];
-}
-
-
-
-
 int main()
 {
 	unordered_map<int, Pipe> pipegroup;
 	unordered_map<int, CS> CSgroup;
 	unordered_map<int, vector<pairofCS>> g;
 	setlocale(LC_ALL, "ru");
-
-	//bool cs_accept = false;
-	//bool pipe_accept = false;
 
 	while (true)
 	{
@@ -275,13 +174,11 @@ int main()
 			if (pipegroup.size() > 0)
 			{
 				deletePipe(pipegroup);
-				
 			}
 			else
 			{
 				cout << "Вы забыли ввести трубы!\n" << endl;
 				system("Pause");
-				
 			}
 			break;
 		}
@@ -291,13 +188,11 @@ int main()
 			if (CSgroup.size() > 0)
 			{
 				deleteCS(CSgroup);
-				
 			}
 			else
 			{
 				cout << "Вы забыли ввести  CS!\n" << endl;
 				system("Pause");
-				
 			}
 			break;
 		}
@@ -358,7 +253,7 @@ int main()
 				usedpipes.insert(make_pair(unit.first, false));
 			}
 
-			g.clear();
+			
 			int time, indexpipe, indexks1, indexks2;
 			cout << "Сколько раз введете КС и трубу?";
 			time = verification(0, 200, "Сколько раз введете КС и трубу?");
@@ -447,8 +342,6 @@ int main()
 			{
 				cout << "Файл не может быть открыт!\n";
 			}
-
-
 			system("Pause");
 			break;
 		}
@@ -496,10 +389,7 @@ int main()
 						g[CSid1].push_back(pair1);
 					}
 				}
-				fin.close();
-
-				
-
+				fin.close();			
 			}
 			else
 			cout << "Файл не может быть открыт!\n";
@@ -535,6 +425,7 @@ int main()
 			for (auto& unit : g)
 			{
 				usedCS[unit.first] = true;
+				
 				for (auto& p1 : unit.second)
 				{
 					usedCS[p1.id_CS] = true;
@@ -567,6 +458,12 @@ int main()
 			}
 			system("pause");
 			break;
+		}
+
+		case 20:
+		{
+			
+
 		}
 
 		case 0:

@@ -17,6 +17,10 @@ struct pairofCS
 
 string nameoffile();
 
+void deletePipe(unordered_map<int, Pipe>& p);
+
+void deleteCS(unordered_map<int, CS>& k);
+
 unordered_map<int, int> visitedCS(unordered_map<int, vector<pairofCS>>& g);
 
 unordered_map<int, bool> usedCS(unordered_map<int, vector<pairofCS>>& g);
@@ -36,6 +40,8 @@ bool searchforcycle(unordered_map<int, vector<pairofCS>>& g);
 void removeofconnection(unordered_map<int, vector<pairofCS>>& k, unordered_map<int, CS> CSgroup, unordered_map<int, Pipe>& pipegroup);
 
 bool verificationofdelete(unordered_map<int, vector<pairofCS>>& k, unordered_map<int, CS>& CSgroup, unordered_map<int, Pipe>& pipegroup, int& idCS);
+
+int Shortlength(unordered_map<int, vector<pairofCS>>& g, unordered_map<int, Pipe>& pipegroup, const int& id_CS1, const int& id_CS2);
 
 
 
